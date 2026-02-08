@@ -1,4 +1,4 @@
-requests
-python-dotenv
 flask
-sqllite3
+flask-sqlalchemy
+flask-login
+python-dotenv
