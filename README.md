@@ -60,13 +60,11 @@ quickrent/
 │ ├── services/
 │ ├── templates/
 │ └── static/
-├── docs/
-├── scripts/
-├── .env.example
+├── venv/
+├── .env
 ├── requirements.txt
 ├── run.py
 └── README.md
-
 ```
 
 ---
@@ -105,7 +103,7 @@ pip install -r requirements.txt
 **4. Add environment variables**
 
 ```bash
-cp .env.example .env
+cp .env
 ```
 
 **5. Run the app**
