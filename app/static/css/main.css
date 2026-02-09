@@ -78,9 +78,7 @@
             color: #999;
         }
 
-        .toggle-btn:hover {
-            color: white;
-        }
+      
 
         .pricing-grid {
             display: grid;
