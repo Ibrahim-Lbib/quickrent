@@ -7,6 +7,7 @@
     <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
   <div class="bg-white">
@@ -98,6 +99,73 @@
     </div>
   </div>
 </div>
+
+
+ <!--pricing section-->
+<div class="container">
+        <div class="header">
+            <h1>Simple Pricing for Serious Agents</h1>
+            <p>Choose an affordable plan that's packed with the best features for engaging your audience, creating customer loyalty, and driving sales.</p>
+        </div>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" data-billing="monthly">Monthly</button>
+            <button class="toggle-btn inactive" data-billing="annually">Annually</button>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Freelancer Plan -->
+            <div class="pricing-card">
+                <h3 class="card-title">Free Plan</h3>
+                <p class="card-description">The essentials to provide your best work for clients.</p>
+                <div class="price" data-monthly="0" data-annually="0">UGX 0</div>
+                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
+                <button class="cta-button">Buy plan</button>
+                <ul class="features-list">
+                    <li><span class="checkmark"></span>1 active listing</li>
+                    <li><span class="checkmark"></span>Basic visibility in search results</li>
+                    <li><span class="checkmark"></span>WhatsApp contact button</li>
+                    <li><span class="checkmark"></span>Manage your listing anytime</li>
+                </ul>
+            </div>
+
+            <!-- Startup Plan -->
+            <div class="pricing-card">
+                <h3 class="card-title">Pro Plan</h3>
+                <p class="card-description">A plan that scales with your rapidly growing business.</p>
+                <div class="price" data-monthly="50k" data-annually="500K">UGX 50K</div>
+                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
+                <button class="cta-button">Buy plan</button>
+                <ul class="features-list">
+                    <li><span class="checkmark"></span>Up to 10 active listings</li>
+                    <li><span class="checkmark"></span>Featured placement in category pages</li>
+                    <li><span class="checkmark"></span>Higher visibility in search</li>
+                    <li><span class="checkmark"></span>Unlimited photos per listing</li>
+                    <li><span class="checkmark"></span>Direct WhatsApp leads</li>
+                </ul>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card featured">
+                <h3 class="card-title">Agency Plan</h3>
+                <p class="card-description">Dedicated support and infrastructure for your company.</p>
+                <div class="price" data-monthly="120k" data-annually="1,2M">UGX 120K</div>
+                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
+                <button class="cta-button">Contact sales</button>
+                <ul class="features-list">
+                    <li><span class="checkmark"></span>Unlimited listings</li>
+                    <li><span class="checkmark"></span>Homepage featured slots</li>
+                    <li><span class="checkmark"></span>Priority ranking in all searches</li>
+                    <li><span class="checkmark"></span>Verified agency badge</li>
+                    <li><span class="checkmark"></span>Dedicated support</li>
+                    <li><span class="checkmark"></span>Early access to new features</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--  JavaScript file -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 </html>
