@@ -44,29 +44,174 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Header/Navbar (same as main site) -->
-    <header class="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
-        <nav class="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5">
-                    <span class="sr-only">QuickRent</span>
-                    <div class="h-8 w-24 bg-indigo-600 rounded flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">QuickRent</span>
+    <!-- Header/Navbar -->
+  <div class="bg-white">
+  <header class="absolute inset-x-0 top-0 z-50" style="position: fixed; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
+    <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
+      <div class="flex lg:flex-1">
+        <a href="#" class="-m-1.5 p-1.5">
+          <span class="sr-only">QuickRent</span>
+          <!--<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />-->
+           <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto; color: #fff;"/>
+        </a>
+      </div>
+      <div class="flex lg:hidden">
+        <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <span class="sr-only">Open main menu</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-12">
+        <a href="#" class="text-sm/6 font-semibold text-gray-900">Home</a>
+        <!--<a href="#" class="text-sm/6 font-semibold text-gray-900">Categories</a>-->
+
+        <!-- Tailwind Elements Dropdown Menu -->
+             <div class="relative">
+              <button popovertarget="desktop-menu-solutions" class="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+                <span>Categories</span>
+                <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                  <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+                </svg>
+              </button>
+
+              <el-popover id="desktop-menu-solutions" anchor="bottom" popover class="w-screen max-w-max overflow-visible bg-transparent px-4 transition transition-discrete [--anchor-gap:--spacing(5)] backdrop:bg-transparent open:flex data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+                <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 shadow-lg outline-1 outline-gray-900/5">
+                  <div class="p-4">
+                    <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                      <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                          class="size-6 text-gray-600 group-hover:text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 10.5 12 3l9 7.5M4.5 9.75V21h15V9.75" />
+                        </svg>
+                      </div>
+                      <div>
+                        <a href="#" class="font-semibold text-gray-900">
+                          Single Rooms
+                          <span class="absolute inset-0"></span>
+                        </a>
+                        <p class="mt-1 text-gray-600">Find verified single rooms in Kampala</p>
+                      </div>
                     </div>
-                </a>
+                    <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                      <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                          class="size-6 text-gray-600 group-hover:text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 21h18M4 21V7a2 2 0 012-2h12a2 2 0 012 2v14M8 10h2v2H8v-2zm4 0h2v2h-2v-2zm-4 4h2v2H8v-2zm4 0h2v2h-2v-2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <a href="#" class="font-semibold text-gray-900">
+                          Hostels
+                          <span class="absolute inset-0"></span>
+                        </a>
+                        <p class="mt-1 text-gray-600">Find verified hostels in Kampala</p>
+                      </div>
+                    </div>
+                    <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                      <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                          class="size-6 text-gray-600 group-hover:text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M4 21h16M9 9h2m-2 4h2m4-4h2m-2 4h2" />
+                        </svg>
+                      </div>
+                      <div>
+                        <a href="#" class="font-semibold text-gray-900">
+                          Apartments
+                          <span class="absolute inset-0"></span>
+                        </a>
+                        <p class="mt-1 text-gray-600">Find verified&#039; apartments in Kampala</p>
+                      </div>
+                    </div>
+                    <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                      <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                          class="size-6 text-gray-600 group-hover:text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 9l1.5-4.5h15L21 9M4 9v10h16V9M9 13h6" />
+                        </svg>
+                      </div>
+                      <div>
+                        <a href="#" class="font-semibold text-gray-900">
+                          Shops
+                          <span class="absolute inset-0"></span>
+                        </a>
+                        <p class="mt-1 text-gray-600">Find verified shops in Kampala</p>
+                      </div>
+                    </div>
+                    <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                      <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                          class="size-6 text-gray-600 group-hover:text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 21h18M6 21V7a2 2 0 012-2h8a2 2 0 012 2v14M9 10h2m-2 4h2m4-4h2m-2 4h2" />
+                        </svg>
+                      </div>
+                      <div>
+                        <a href="#" class="font-semibold text-gray-900">
+                          Offices
+                          <span class="absolute inset-0"></span>
+                        </a>
+                        <p class="mt-1 text-gray-600">Find verified offices in Kampala</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-4">
+                    <a href="{{ url_for('listing.listings') }}" target="_blank" class="block w-full rounded-md bg-gray-50 px-4 py-2 text-center text-sm font-semibold text-gray-900 hover:bg-gray-100">View all categories</a>
+                </div>
+                </div>
+              </el-popover>
             </div>
-            <div class="hidden lg:flex lg:gap-x-12">
-                <a href="#" class="text-sm font-semibold text-gray-900">Home</a>
-                <a href="#" class="text-sm font-semibold text-gray-900">Categories</a>
-                <a href="#" class="text-sm font-semibold text-gray-900">Agent</a>
-                <a href="#" class="text-sm font-semibold text-gray-900">Pricing</a>
+            <!-- End of Dropdown Menu -->
+
+        <a href="#" class="text-sm/6 font-semibold text-gray-900">Agent</a>
+        <a href="#pricing" class="text-sm/6 font-semibold text-gray-900">Pricing</a>
+      </div>
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a href="{{ url_for('auth.login') }}" class="text-sm/6 font-semibold text-gray-900" target="_blank" style="margin-right: 10px; text-align: center;">Log in <!--<span aria-hidden="true">&rarr;</span>--></a>
+        <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="margin-left: 10px;">Post Property</a>
+      </div>
+    </nav>
+    <el-dialog>
+      <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+        <div tabindex="0" class="fixed inset-0 focus:outline-none">
+          <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div class="flex items-center justify-between">
+              <a href="#" class="-m-1.5 p-1.5">
+                <span class="sr-only">QuickRent</span>
+                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />
+              </a>
+              <button type="button" command="close" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                <span class="sr-only">Close menu</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                  <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
             </div>
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
-                <a href="#" class="text-sm font-semibold text-gray-900">Log in</a>
-                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Post Property</a>
+            <div class="mt-6 flow-root">
+              <div class="-my-6 divide-y divide-500/10">
+                <div class="space-y-2 py-6">
+                  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Home</a>
+                  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Categories</a>
+                  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Agent</a>
+                  <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Pricing</a>
+                </div>
+                <div class="py-6">
+                  <a href="{{ url_for('auth.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                  <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                </div>
+              </div>
             </div>
-        </nav>
-    </header>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+    </el-dialog>
+  </header>
+  <!-- End of Header/Navbar -->
 
     <!-- Main Content -->
     <div class="pt-24 pb-16">
@@ -107,7 +252,9 @@
                 <!-- Property Card 2 - Hostel -->
                 <div class="property-card bg-white rounded-lg overflow-hidden">
                     <div class="property-image img-hostel">
-                        <div class="property-image-content"></div>
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" alt="Hostel" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -123,7 +270,9 @@
                 <!-- Property Card 3 - Apartment -->
                 <div class="property-card bg-white rounded-lg overflow-hidden">
                     <div class="property-image img-apartment">
-                        <div class="property-image-content"></div>
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" alt="Apartment" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -139,7 +288,9 @@
                 <!-- Property Card 4 - Shop -->
                 <div class="property-card bg-white rounded-lg overflow-hidden">
                     <div class="property-image img-shop">
-                        <div class="property-image-content"></div>
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" alt="Shop" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -155,7 +306,9 @@
                 <!-- Property Card 5 - Office -->
                 <div class="property-card bg-white rounded-lg overflow-hidden">
                     <div class="property-image img-office">
-                        <div class="property-image-content"></div>
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" alt="Office" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -171,7 +324,9 @@
                 <!-- Property Card 6 - Premium Single Room -->
                 <div class="property-card bg-white rounded-lg overflow-hidden">
                     <div class="property-image img-single-room">
-                        <div class="property-image-content"></div>
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/single-room-01.jfif') }}" alt="Premium Single Room" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
