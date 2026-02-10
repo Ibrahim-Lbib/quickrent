@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Listings - QuickRent</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .property-card {
+            transition: transform 0.15s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .property-image {
+            position: relative;
+            overflow: hidden;
+            background: #f3f4f6;
+        }
+
+        .property-image::before {
+            content: '';
+            display: block;
+            padding-top: 75%; /* 4:3 aspect ratio - less tall */
+        }
+
+        .property-image-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        /* Simpler placeholder images */
+        .img-single-room { background: #e5e7eb; }
+        .img-hostel { background: #e5e7eb; }
+        .img-apartment { background: #e5e7eb; }
+        .img-shop { background: #e5e7eb; }
+        .img-office { background: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header/Navbar (same as main site) -->
+    <header class="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+        <nav class="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex lg:flex-1">
+                <a href="#" class="-m-1.5 p-1.5">
+                    <span class="sr-only">QuickRent</span>
+                    <div class="h-8 w-24 bg-indigo-600 rounded flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">QuickRent</span>
+                    </div>
+                </a>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-12">
+                <a href="#" class="text-sm font-semibold text-gray-900">Home</a>
+                <a href="#" class="text-sm font-semibold text-gray-900">Categories</a>
+                <a href="#" class="text-sm font-semibold text-gray-900">Agent</a>
+                <a href="#" class="text-sm font-semibold text-gray-900">Pricing</a>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
+                <a href="#" class="text-sm font-semibold text-gray-900">Log in</a>
+                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Post Property</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <!-- Page Header -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-semibold text-gray-900">New Listings</h1>
+            </div>
+
+            <!-- Filters Bar -->
+            <div class="flex items-center gap-x-6 mb-8 pb-5 border-b border-gray-200">
+                <div class="text-sm text-gray-600">Sort by</div>
+                <div class="text-sm text-gray-600">Category</div>
+                <div class="text-sm text-gray-600">Location</div>
+            </div>
+
+            <!-- Property Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Property Card 1 - Single Room -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-single-room">
+                        <div class="property-image-content">
+                            <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" alt="Single Room" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Cozy Single Room</h3>
+                                <p class="text-sm text-gray-500 mt-1">Makerere Kikoni</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 250K</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 2 - Hostel -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-hostel">
+                        <div class="property-image-content"></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Modern Student Hostel</h3>
+                                <p class="text-sm text-gray-500 mt-1">Wandegeya</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 350K</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 3 - Apartment -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-apartment">
+                        <div class="property-image-content"></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">2-Bedroom Apartment</h3>
+                                <p class="text-sm text-gray-500 mt-1">Ntinda</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 800K</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 4 - Shop -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-shop">
+                        <div class="property-image-content"></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Retail Shop Space</h3>
+                                <p class="text-sm text-gray-500 mt-1">Nakawa Market</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 600K</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 5 - Office -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-office">
+                        <div class="property-image-content"></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Professional Office</h3>
+                                <p class="text-sm text-gray-500 mt-1">Kololo</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 1.2M</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 6 - Premium Single Room -->
+                <div class="property-card bg-white rounded-lg overflow-hidden">
+                    <div class="property-image img-single-room">
+                        <div class="property-image-content"></div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Premium Self-Contained</h3>
+                                <p class="text-sm text-gray-500 mt-1">Makerere</p>
+                            </div>
+                            <div class="text-base font-semibold text-gray-900">UGX 400K</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Load More Button -->
+            <div class="mt-10 text-center">
+                <button class="text-sm font-medium text-gray-700">Load more</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
