@@ -22,7 +22,7 @@
         }
 
         .pricing-label {
-            color: #5b63ff;
+            color: #4f46e5;
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -69,7 +69,7 @@
         }
 
         .toggle-btn.active {
-            background-color: #5b63ff;
+            background-color: #4f46e5;
             color: white;
         }
 
@@ -152,12 +152,12 @@
         }
 
         .pricing-card .cta-button {
-            background-color: #5b63ff;
+            background-color: #4f46e5;
             color: white;
         }
 
         .pricing-card .cta-button:hover {
-            background-color: #4a4ed9;
+            background-color: #4f46e5;
         }
 
         .pricing-card.featured .cta-button {
@@ -203,13 +203,13 @@
 
         .checkmark::before {
             content: "✓";
-            color: #5b63ff;
+            color: #4f46e5;
             font-weight: 700;
             font-size: 16px;
         }
 
         .pricing-card.featured .checkmark::before {
-            color: #5b63ff;
+            color: #4f46e5;
         }
 
         @media (max-width: 768px) {
@@ -229,3 +229,5 @@
                 padding: 30px 20px;
             }
         }
+
+    
