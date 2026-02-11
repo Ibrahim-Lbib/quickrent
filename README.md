@@ -1,3 +1,5 @@
+![App Screenshot](app/static/images/quickrent_logo-1.png)
+
 # QuickRent — Rentals & Property Directory – Kampala
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
