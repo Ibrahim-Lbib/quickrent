@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing Details - Property</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listings_detail.css') }}">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="listing-header">
+            <div class="header-left">
+                <h1>Listing Details</h1>
+                <div class="header-info">
+                    <span>Property ID: #KLA-2024-001</span>
+                    <span>Listed on Feb 11, 2026</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="#">View full details →</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="listing-content">
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="main-image">🏠 Property Image</div>
+                <div class="gallery-thumbnails">
+                    <div class="thumbnail">Photo 1</div>
+                    <div class="thumbnail">Photo 2</div>
+                    <div class="thumbnail">Photo 3</div>
+                    <div class="thumbnail">Photo 4</div>
+                </div>
+            </div>
+
+            <!-- Property Details -->
+            <div class="property-details">
+                <div>
+                    <h2 class="property-title">Spacious 3-Bedroom Apartment in Kampala</h2>
+                    <div class="property-price">UGX 1,200,000</div>
+                    <p class="property-location">📍 Kololo, Kampala | 5 minutes from Makerere University</p>
+                </div>
+
+                <p class="property-description">
+                    Discover your dream home in the heart of Kampala. This stunning 3-bedroom apartment offers modern amenities, secure gated community, and easy access to major roads and shopping centers. Perfect for families and professionals alike.
+                </p>
+
+                <!-- Features Grid -->
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <span class="feature-label">🛏️ Bedrooms</span>
+                        <span class="feature-value">3</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-label">🚿 Bathrooms</span>
+                        <span class="feature-value">2</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-label">📐 Size</span>
+                        <span class="feature-value">150 m²</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-label">🏢 Type</span>
+                        <span class="feature-value">Apartment</span>
+                    </div>
+                </div>
+
+                <!-- Utilities -->
+                <div class="utilities">
+                    <div class="utilities-label">Utilities Included</div>
+                    <ul class="utilities-list">
+                        <li>Water Supply</li>
+                        <li>Electricity Connection</li>
+                        <li>24/7 Security</li>
+                        <li>Parking Space</li>
+                        <li>Balcony/Terrace</li>
+                        <li>Modern Kitchen</li>
+                    </ul>
+                </div>
+
+                <!-- Nearby Landmarks -->
+                <div class="landmarks">
+                    <div class="landmarks-label">Nearby Landmarks</div>
+                    <ul class="landmarks-list">
+                        <li>Makerere University - 5 minutes</li>
+                        <li>Kampala City Centre - 10 minutes</li>
+                        <li>Nakasero Market - 3 minutes</li>
+                        <li>Mulago Hospital - 8 minutes</li>
+                        <li>Shopping Malls - 15 minutes</li>
+                        <li>Private Schools - 7 minutes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Agent Section -->
+        <div class="agent-section">
+            <div class="agent-header">Agent Information</div>
+            <div class="agent-info">
+                <div class="agent-avatar">JM</div>
+                <div class="agent-details">
+                    <div class="agent-name">John Mukasa</div>
+                    <div class="agent-phone">📱 +256 700 123 456</div>
+                </div>
+            </div>
+            <button class="whatsapp-button">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-9.746 9.798c0 2.694.735 5.326 2.124 7.612L2.129 22.06l8.159-2.691a9.823 9.823 0 004.745 1.189h.004c5.411 0 9.852-4.417 9.878-9.832.01-2.64-.758-5.123-2.162-7.257-1.404-2.134-3.396-3.662-5.654-4.237-2.258-.574-4.668-.47-6.89.309"/>
+                </svg>
+                💬 Contact Agent on WhatsApp
+            </button>
+        </div>
+    </div>
+</body>
+</html>
