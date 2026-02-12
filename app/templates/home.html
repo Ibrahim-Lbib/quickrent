@@ -147,7 +147,7 @@
 
     <!-- Second Row - Search Bar (Under Home, Categories, Agent, Pricing) -->
         <div class="hidden lg:flex lg:justify-center lg:py-4 lg:px-8">
-            <div style="width: 100%; max-width: 495px; background-color: transparent; backdrop-filter: none; border-radius: 40px; padding: 6px 6px 6px 6px; display: flex; align-items: center; gap: 12px; border: 0.2px solid #4A4F47; opacity: 0.95; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s ease;" id="searchBarContainer">
+            <div style="width: 100%; max-width: 470px; background-color: transparent; backdrop-filter: none; border-radius: 40px; padding: 6px 6px 6px 6px; display: flex; align-items: center; gap: 12px; border: 0.2px solid #4A4F47; opacity: 0.95; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s ease;" id="searchBarContainer">
    
                 <!-- Location Dropdown -->
                 <div class="search-dropdown">
@@ -155,13 +155,40 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                     </svg>
-                    <select class="search-select">
-                        <option value="" disabled selected>Location</option>
-                        <option value="kampala">Kampala</option>
-                        <option value="makerere">Makerere</option>
-                        <option value="kikoni">Kikoni</option>
-                        <option value="wandegeya">Wandegeya</option>
-                    </select>
+                    <div class="custom-dropdown" id="locationDropdown">
+                        <button class="dropdown-toggle" data-dropdown="location">
+                            <span>Location</span>
+                            <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" id="locationMenu">
+                            <div class="dropdown-option" data-value="kampala">
+                                <span>Kampala</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="makerere">
+                                <span>Makerere</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="kikoni">
+                                <span>Kikoni</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="wandegeya">
+                                <span>Wandegeya</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Price Filter -->
@@ -169,14 +196,46 @@
                     <svg style="width: 18px; height: 18px; color: #4A4F47; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <select class="search-select">
-                        <option value="" disabled selected>Price</option>
-                        <option value="250">250K</option>
-                        <option value="350">350K</option>
-                        <option value="500">500K</option>
-                        <option value="800">800K</option>
-                        <option value="1000">1M</option>
-                    </select>
+                    <div class="custom-dropdown" id="priceDropdown">
+                        <button class="dropdown-toggle" data-dropdown="price">
+                            <span>Price</span>
+                            <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" id="priceMenu">
+                            <div class="dropdown-option" data-value="250">
+                                <span>250K</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="350">
+                                <span>350K</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="500">
+                                <span>500K</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="800">
+                                <span>800K</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="1000">
+                                <span>1M</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Property Type Dropdown -->
@@ -184,14 +243,46 @@
                     <svg style="width: 18px; height: 18px; color: #4A4F47; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 3l9 7.5M4.5 9.75V21h15V9.75" />
                     </svg>
-                    <select class="search-select">
-                        <option value="" disabled selected>Property Type</option>
-                        <option value="single">Single</option>
-                        <option value="hostel">Hostel</option>
-                        <option value="apartment">Apt</option>
-                        <option value="shop">Shop</option>
-                        <option value="office">Office</option>
-                    </select>
+                    <div class="custom-dropdown" id="propertyDropdown">
+                        <button class="dropdown-toggle" data-dropdown="property" style="white-space: nowrap;">
+                            <span>Property Type</span>
+                            <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu" id="propertyMenu">
+                            <div class="dropdown-option" data-value="single">
+                                <span>Single</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="hostel">
+                                <span>Hostel</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="apartment">
+                                <span>Apartment</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="shop">
+                                <span>Shop</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-option" data-value="office">
+                                <span>Office</span>
+                                <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Search Button -->
@@ -203,8 +294,7 @@
                     Search
                 </button>
             </div>
-        </div>
-        <!-- End of Search-Bar -->
+        </div>        <!-- End of Search-Bar -->
 
     <el-dialog>
       <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
@@ -484,5 +574,68 @@ Contact agents instantly on WhatsApp. No signup required</p>
     </footer>
     <!--  JavaScript file -->
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
+
+ <!-- for the search section--> 
+<script>
+// Dropdown functionality
+function initializeDropdowns() {
+    const dropdowns = ['location', 'price', 'property'];
+    
+    dropdowns.forEach(dropdownName => {
+        const toggle = document.querySelector(`[data-dropdown="${dropdownName}"]`);
+        const menu = document.getElementById(`${dropdownName}Menu`);
+        const options = menu.querySelectorAll('.dropdown-option');
+        
+        if (!toggle || !menu) return;
+        
+        // Toggle menu on button click
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) {
+                    m.classList.remove('active');
+                    m.previousElementSibling?.classList.remove('active');
+                }
+            });
+            
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        });
+        
+        // Handle option selection
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected from all options
+                options.forEach(o => o.classList.remove('selected'));
+                // Add selected to clicked option
+                option.classList.add('selected');
+                // Update button text
+                toggle.querySelector('span').textContent = option.querySelector('span').textContent;
+                // Close menu
+                menu.classList.remove('active');
+                toggle.classList.remove('active');
+            });
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('active');
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.classList.remove('active');
+                });
+            });
+        }
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initializeDropdowns);
+</script>
+
+ </body>
 </html>
