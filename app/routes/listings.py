@@ -14,6 +14,6 @@ def listings():
     properties = fake_properties
     return render_template('listings.html', properties=properties)
 
-@listing_bp.route('/listings/llistings_detail')
+@listing_bp.route('/listings/listings_detail')
 def listing_detail():
     return render_template('listing_detail.html')
