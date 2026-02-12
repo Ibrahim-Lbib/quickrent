@@ -6,10 +6,17 @@
     <title>{% block title %}QuickRent{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- link for the footer -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
     {% block head %}{% endblock %}
 </head>
 <body class="bg-gray-50">
-    {% block body %}{% endblock %}
+    {% block body %}
+    
+    <!--  JavaScript file -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% endblock %}
 </body>
 </html>

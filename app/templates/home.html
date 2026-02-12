@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <!-- link for the footer -->
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block head %}
+{% endblock %}
+{% block body %}
   <!-- Header/Navbar -->
   <div class="bg-white">
   <header class="absolute inset-x-0 top-0 z-50" style="position: fixed; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
@@ -496,7 +486,7 @@ Contact agents instantly on WhatsApp. No signup required</p>
         <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="static/images/quickrent_logo-1.png" alt="Logo" style="width: 110px; height: auto;">
+                    <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="Logo" style="width: 110px; height: auto;">
                 </div>
 
                 <div class="footer-section">
@@ -572,70 +562,8 @@ Contact agents instantly on WhatsApp. No signup required</p>
             </div>
         </div>
     </footer>
+
     <!--  JavaScript file -->
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
- <!-- for the search section--> 
-<script>
-// Dropdown functionality
-function initializeDropdowns() {
-    const dropdowns = ['location', 'price', 'property'];
-    
-    dropdowns.forEach(dropdownName => {
-        const toggle = document.querySelector(`[data-dropdown="${dropdownName}"]`);
-        const menu = document.getElementById(`${dropdownName}Menu`);
-        const options = menu.querySelectorAll('.dropdown-option');
-        
-        if (!toggle || !menu) return;
-        
-        // Toggle menu on button click
-        toggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            // Close other dropdowns
-            document.querySelectorAll('.dropdown-menu').forEach(m => {
-                if (m !== menu) {
-                    m.classList.remove('active');
-                    m.previousElementSibling?.classList.remove('active');
-                }
-            });
-            
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        });
-        
-        // Handle option selection
-        options.forEach(option => {
-            option.addEventListener('click', () => {
-                // Remove selected from all options
-                options.forEach(o => o.classList.remove('selected'));
-                // Add selected to clicked option
-                option.classList.add('selected');
-                // Update button text
-                toggle.querySelector('span').textContent = option.querySelector('span').textContent;
-                // Close menu
-                menu.classList.remove('active');
-                toggle.classList.remove('active');
-            });
-        });
-    });
-    
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-dropdown')) {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                menu.classList.remove('active');
-                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                    toggle.classList.remove('active');
-                });
-            });
-        }
-    });
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initializeDropdowns);
-</script>
-
- </body>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% endblock %}
 </html>

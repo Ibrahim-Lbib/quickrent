@@ -42,3 +42,64 @@
                 });
             });
         });
+
+
+// for the search section
+// Dropdown functionality
+function initializeDropdowns() {
+    const dropdowns = ['location', 'price', 'property'];
+    
+    dropdowns.forEach(dropdownName => {
+        const toggle = document.querySelector(`[data-dropdown="${dropdownName}"]`);
+        const menu = document.getElementById(`${dropdownName}Menu`);
+        const options = menu.querySelectorAll('.dropdown-option');
+        
+        if (!toggle || !menu) return;
+        
+        // Toggle menu on button click
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) {
+                    m.classList.remove('active');
+                    m.previousElementSibling?.classList.remove('active');
+                }
+            });
+            
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        });
+        
+        // Handle option selection
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected from all options
+                options.forEach(o => o.classList.remove('selected'));
+                // Add selected to clicked option
+                option.classList.add('selected');
+                // Update button text
+                toggle.querySelector('span').textContent = option.querySelector('span').textContent;
+                // Close menu
+                menu.classList.remove('active');
+                toggle.classList.remove('active');
+            });
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('active');
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.classList.remove('active');
+                });
+            });
+        }
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initializeDropdowns);
