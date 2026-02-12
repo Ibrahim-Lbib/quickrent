@@ -6,12 +6,12 @@ public = Blueprint("public", __name__)
 
 @public.route('/')
 def home():
-    listings = Listing.query.order_by(Listing.created_at.desc()).limit(10).all()
+    listings = Listing.query.order_by(Listing.create_at.desc()).limit(10).all()
     return render_template('home.html', listings=listings)
 
 @public.route('/listings')
 def listings():
-    listings = Listing.query.order_by(Listing.created_at.desc()).all()
+    listings = Listing.query.order_by(Listing.create_at.desc()).all()
     return render_template('listings.html', listings=listings)
 
 @public.route('/listings/<int:listing_id>')

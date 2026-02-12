@@ -4,12 +4,14 @@ from .extensions import db, login_manager
 from app.models import user, listing, category, location
 from .routes.auth import auth_bp
 from .routes.listings import listing_bp
+from .routes.public import public
 
 def create_app():
     app = Flask(__name__, static_folder='static', template_folder='templates')
     app.config.from_object(Config)
     app.register_blueprint(auth_bp)
     app.register_blueprint(listing_bp)
+    app.register_blueprint(public)
     
     db.init_app(app)
     login_manager.init_app(app)
