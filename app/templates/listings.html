@@ -13,177 +13,195 @@
         </div>
         
          <!-- Property Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {% for property in properties %}
+<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for property in properties %}
 
-                <!-- Property Card 1 - Single Room -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-{{ property.type }}">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" alt="Single Room" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Cozy Single Room</h3>
-                                <p class="text-sm text-gray-500 mt-1">Makerere Kikoni</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 250K</div>
-                        </div>
-                    </div>
+    <!-- Property Card 1 - Single Room -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-{{ property.type }}">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" alt="Single Room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 </div>
-
-                <!-- Property Card 2 - Hostel -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-hostel">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" alt="Hostel" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Modern Student Hostel</h3>
-                                <p class="text-sm text-gray-500 mt-1">Wandegeya</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 350K</div>
-                        </div>
-                    </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Cozy Single Room</h3>
+                    <p class="text-sm text-gray-500 mt-1">Makerere Kikoni</p>
                 </div>
-
-                <!-- Property Card 3 - Apartment -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-apartment">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" alt="Apartment" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">2-Bedroom Apartment</h3>
-                                <p class="text-sm text-gray-500 mt-1">Ntinda</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 800K</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 4 - Shop -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-shop">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" alt="Shop" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Retail Shop Space</h3>
-                                <p class="text-sm text-gray-500 mt-1">Nakawa Market</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 600K</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 5 - Office -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-office">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" alt="Office" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Professional Office</h3>
-                                <p class="text-sm text-gray-500 mt-1">Kololo</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 1.2M</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 6 - Premium Single Room -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-single-room">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/single-room-01.jfif') }}" alt="Premium Single Room" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Premium Self-Contained</h3>
-                                <p class="text-sm text-gray-500 mt-1">Makerere</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 400K</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 7 - Additional Single Room -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-single-room">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/single-room-02.jpg') }}" alt="Single Room" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Spacious Single Room</h3>
-                                <p class="text-sm text-gray-500 mt-1">Kikumi Kikumi</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 280K</div>
-                            <button class="text-indigo-600 hover:text-indigo-800">
-                                <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}">View details →</a>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 8 - Additional Hostel -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-hostel">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/hostel-02.jfif') }}" alt="Hostel" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Executive Hostel</h3>
-                                <p class="text-sm text-gray-500 mt-1">Kisaasi</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 420K</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Property Card 9 - Additional Apartment -->
-                <div class="property-card bg-white rounded-lg overflow-hidden">
-                    <div class="property-image img-apartment">
-                        <div class="property-image-content">
-                            <img src="{{ url_for('static', filename='images/listings/apartment-02.webp') }}" alt="Apartment" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex-1">
-                                <h3 class="text-base font-medium text-gray-900">Luxury 3-Bedroom</h3>
-                                <p class="text-sm text-gray-500 mt-1">Najjera</p>
-                            </div>
-                            <div class="text-base font-semibold text-gray-900">UGX 1.5M</div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                <div class="text-base font-semibold text-gray-900">UGX 250K</div>
             </div>
+        </div>
+    </div>
 
+    <!-- Property Card 2 - Hostel -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-hostel">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" alt="Hostel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Modern Student Hostel</h3>
+                    <p class="text-sm text-gray-500 mt-1">Wandegeya</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 350K</div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Property Card 3 - Apartment -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-apartment">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" alt="Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">2-Bedroom Apartment</h3>
+                    <p class="text-sm text-gray-500 mt-1">Ntinda</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 800K</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 4 - Shop -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-shop">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" alt="Shop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Retail Shop Space</h3>
+                    <p class="text-sm text-gray-500 mt-1">Nakawa Market</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 600K</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 5 - Office -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-office">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" alt="Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Professional Office</h3>
+                    <p class="text-sm text-gray-500 mt-1">Kololo</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 1.2M</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 6 - Premium Single Room -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-single-room">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/single-room-01.jfif') }}" alt="Premium Single Room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Premium Self-Contained</h3>
+                    <p class="text-sm text-gray-500 mt-1">Makerere</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 400K</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 7 - Additional Single Room -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-single-room">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/single-room-02.jpg') }}" alt="Single Room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Spacious Single Room</h3>
+                    <p class="text-sm text-gray-500 mt-1">Kikumi Kikumi</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="text-base font-semibold text-gray-900">UGX 280K</div>
+                    <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="text-indigo-600 hover:text-indigo-800 transition-colors duration-300">
+                        View details →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 8 - Additional Hostel -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-hostel">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/hostel-02.jfif') }}" alt="Hostel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Executive Hostel</h3>
+                    <p class="text-sm text-gray-500 mt-1">Kisaasi</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 420K</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Card 9 - Additional Apartment -->
+    <div class="property-card bg-white rounded-lg overflow-hidden">
+        <div class="property-image img-apartment">
+            <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}" class="block group">
+                <div class="property-image-content">
+                    <img src="{{ url_for('static', filename='images/listings/apartment-02.webp') }}" alt="Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </a>
+        </div>
+        <div class="p-5">
+            <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900">Luxury 3-Bedroom</h3>
+                    <p class="text-sm text-gray-500 mt-1">Najjera</p>
+                </div>
+                <div class="text-base font-semibold text-gray-900">UGX 1.5M</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
         <!-- Load More Button -->
         <div class="mt-12 text-center">
             <button class="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
