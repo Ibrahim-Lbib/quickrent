@@ -138,7 +138,9 @@
                                 <p class="text-sm text-gray-500 mt-1">Kikumi Kikumi</p>
                             </div>
                             <div class="text-base font-semibold text-gray-900">UGX 280K</div>
-                            <button> <span><a href="{{ url_for('public.listing_detail') }}" class="">View details →</a></span></button>
+                            <button class="text-indigo-600 hover:text-indigo-800">
+                                <a href="{{ url_for('public.listing_detail', listing_id=property.id) }}">View details →</a>
+                            </button>
                         </div>
                     </div>
                 </div>

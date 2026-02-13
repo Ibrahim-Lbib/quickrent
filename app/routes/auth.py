@@ -1,89 +1,79 @@
 # login, register
+from os import name
+from os import name
 from flask import Blueprint, redirect, render_template, request, url_for, flash
+from app import db
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models.user import User
 from app.extensions import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_bp = Blueprint('auth', __name__)
 
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        full_name = request.form.get("full_name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        password = request.form.get("password")
+        
+        if len(password) < 8:
+            flash('Password must be at least 8 characters long', 'error')
+            return render_template('auth/register.html')
+        
+        hashed_password = generate_password_hash(password)
+        
+        if not all([full_name, email, phone, password]):
+            flash('Please fill in all fields', 'error')
+            return render_template('auth/register.html')
+        
+        if User.query.filter_by(email=email).first():
+            flash("Email already registered.", "error")
+            return render_template('auth/register.html')
+        
+        user = User(
+            full_name=full_name, 
+            email=email, 
+            phone=phone, 
+            password_hash=hashed_password
+            )
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        login_user(user)
+        flash("Account created successfully!", "success")
+        return redirect(url_for('public.home'))
+    return render_template('auth/register.html')
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    # Redirect if already logged in
-    if current_user.is_authenticated:
-        return redirect(url_for('public.home'))
-    
     if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '').strip()
+        email = request.form.get("email")
+        password = request.form.get("password")
         
-        # Validation
-        if not email or not password:
-            flash('Email and password are required', 'error')
+        if not all([email, password]):
+            flash('Please enter both email and password', 'error')
             return render_template('auth/login.html')
         
         # Find user by email
         user = User.query.filter_by(email=email).first()
         
-        if user and user.check_password(password):
+        if user and check_password_hash(user.password_hash, password):
             login_user(user)
-            flash('Login successful!', 'success')
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('public.home'))
-        else:
-            flash('Invalid email or password', 'error')
+            return redirect(url_for('public.home'))
+        flash('Invalid credentials')
             
     return render_template('auth/login.html')
-
-@auth_bp.route('/register', methods=['GET', 'POST'])
-def register():
-    # Redirect if already logged in
-    if current_user.is_authenticated:
-        return redirect(url_for('public.home'))
-    
-    if request.method == 'POST':
-        full_name = request.form.get('full_name', '').strip()
-        email = request.form.get('email', '').strip()
-        phone = request.form.get('phone', '').strip()
-        password = request.form.get('password', '').strip()
-        confirm_password = request.form.get('confirm_password', '').strip()
-        
-        # Validation
-        if not all([full_name, email, phone, password, confirm_password]):
-            flash('All fields are required', 'error')
-            return render_template('auth/register.html')
-        
-        if password != confirm_password:
-            flash('Passwords do not match', 'error')
-            return render_template('auth/register.html')
-        
-        if len(password) < 10:
-            flash('Password must be at least 10 characters', 'error')
-            return render_template('auth/register.html')
-        
-        # Check if user already exists
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered', 'error')
-            return render_template('auth/register.html')
-        
-        # Create new user
-        new_user = User(full_name=full_name, email=email, phone=phone)
-        new_user.set_password(password)
-        
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Registration successful! Please log in.', 'success')
-            return redirect(url_for('auth.login'))
-        except Exception as e:
-            db.session.rollback()
-            flash('An error occurred during registration', 'error')
-            return render_template('auth/register.html')
-    
-    return render_template('auth/register.html')
 
 @auth_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out', 'success')
     return redirect(url_for('public.home'))
+
+@auth_bp.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('auth/dashboard.html')

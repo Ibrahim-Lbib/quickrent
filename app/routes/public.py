@@ -15,6 +15,7 @@ def listings():
     return render_template('listings.html', listings=listings)
 
 @public.route('/listings/<int:listing_id>')
+@public.route('/listings/<listing_id>')
 def listing_detail(listing_id):
     listing = Listing.query.get_or_404(listing_id)
-    return render_template('listing_detail.html', listing=listing)
+    return render_template('listing_detail.html', listings=listings)
