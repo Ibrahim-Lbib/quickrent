@@ -13,6 +13,16 @@ The goal is to make finding **single rooms, hostels, apartments, shops, and offi
 
 ---
 
+## 📸 Screenshots
+
+### Home Page
+![Home](app/static/images/home.png)
+
+### Listings
+![Listings](app/static/images/listings.png)
+
+---
+
 ## 🚀 Project Goal
 Build a lightweight MVP that:
 - Lists rental properties
@@ -105,7 +115,7 @@ pip install -r requirements.txt
 **4. Add environment variables**
 
 ```bash
-cp .env
+touch .env
 ```
 
 **5. Run the app**
