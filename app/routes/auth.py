@@ -67,6 +67,10 @@ def login():
             
     return render_template('auth/login.html')
 
+@auth_bp.context_processor
+def inject_user():
+    return dict(current_user=current_user)
+
 @auth_bp.route('/logout')
 @login_required
 def logout():
@@ -76,4 +80,5 @@ def logout():
 @auth_bp.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('auth/dashboard.html')
+    listings = current_user.listings
+    return render_template('agent/dashboard.html', listings=listings)

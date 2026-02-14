@@ -8,7 +8,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            
         }
 
         .search-container {
@@ -16,6 +16,7 @@
             max-width: 640px;
             text-align: center;
             margin: 100px auto 0 auto;
+            padding: 20px;
         }
 
         .search-label {

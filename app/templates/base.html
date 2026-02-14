@@ -229,28 +229,33 @@
     <div class="bg-white">
         
     <!-- Header -->
-    <header class="absolute inset-x-0 top-0 z-50" style="position: fixed; background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);">
-        <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
+    <header class="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-lg border-gray-200/50 shadow-sm">
+        <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8">
+        
+        <!-- Logo -->
         <div class="flex lg:flex-1">
             <a href="{{ url_for('public.home') }}" class="-m-1.5 p-1.5">
             <span class="sr-only">QuickRent</span>
-            <!--<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />-->
-            <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto; color: #fff;"/>
+            <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto;"/>
             </a>
         </div>
+
+        <!-- Mobile menu button -->
         <div class="flex lg:hidden">
-            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
             <span class="sr-only">Open main menu</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
             </button>
         </div>
+
+        <!-- Desktop Navigation + Centered Search -->
         <div class="hidden lg:flex lg:gap-x-12">
-            <a href="{{ url_for('public.home') }}" class="text-sm/6 font-semibold text-gray-900">Home</a>
-            <!--<a href="#" class="text-sm/6 font-semibold text-gray-900">Categories</a>-->
+            <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900">Browse Rentals</a>
 
             <!-- Tailwind Elements Dropdown Menu -->
+            <!-- Categories Mega Menu (using your Tailwind Elements popover) -->
                 <div class="relative">
                 <button popovertarget="desktop-menu-solutions" class="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
                     <span>Categories</span>
@@ -262,6 +267,8 @@
                 <el-popover id="desktop-menu-solutions" anchor="bottom" popover class="w-screen max-w-max overflow-visible bg-transparent px-4 transition transition-discrete [--anchor-gap:--spacing(5)] backdrop:bg-transparent open:flex data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
                     <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 shadow-lg outline-1 outline-gray-900/5">
                     <div class="p-4">
+
+                        <!-- Single Rooms-->
                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                         <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -278,6 +285,8 @@
                             <p class="mt-1 text-gray-600">Find verified single rooms in Kampala</p>
                         </div>
                         </div>
+
+                        <!-- Hostels-->
                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                         <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -294,6 +303,8 @@
                             <p class="mt-1 text-gray-600">Find verified hostels in Kampala</p>
                         </div>
                         </div>
+
+                        <!-- Apartments -->
                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                         <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -310,6 +321,8 @@
                             <p class="mt-1 text-gray-600">Find verified&#039; apartments in Kampala</p>
                         </div>
                         </div>
+
+                        <!-- Shops-->
                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                         <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -326,6 +339,8 @@
                             <p class="mt-1 text-gray-600">Find verified shops in Kampala</p>
                         </div>
                         </div>
+
+                        <!-- Offices -->
                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                         <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -343,6 +358,8 @@
                         </div>
                         </div>
                     </div>
+
+                    <!-- View All Categories -->
                     <div class="p-4">
                         <a href="{{ url_for('listing.listings') }}" target="" class="block w-full rounded-md bg-gray-50 px-4 py-2 text-center text-sm font-semibold text-gray-900 hover:bg-gray-100">View all categories</a>
                     </div>
@@ -351,12 +368,40 @@
                 </div>
                 <!-- End of Dropdown Menu -->
 
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Agent</a>
-            <a href="#pricing" class="text-sm/6 font-semibold text-gray-900">Pricing</a>
+            <a href="#" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Agent</a>
+            <a href="#pricing" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Pricing</a>
+            
         </div>
+
+        <!-- Auth / CTA-->
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="{{ url_for('auth.login') }}" class="text-sm/6 font-semibold text-gray-900" target="_blank" style="margin-right: 10px; text-align: center;">Log in <!--<span aria-hidden="true">&rarr;</span>--></a>
-            <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="margin-left: 10px;">Post Property</a>
+            {% if current_user.is_authenticated %}
+                <!--<div class="hidden lg:flex lg:gap-x-12">
+                    <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900">My Listings</a>
+                    <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">Dashboard</a>
+                    <a href="#" class="text-sm/6 font-semibold text-gray-900">Add Listing</a>
+                    <a href="#pricing" class="text-sm/6 font-semibold text-gray-900">Pricing</a>
+                </div>>-->
+
+                <div class="flex items-center gap-4">
+                <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="text-sm/6 font-semibold text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                    </svg>
+                </a>
+                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                </div>
+            {% else %}
+                <div class="flex items-center gap-4">
+                <a href="{{ url_for('auth.login') }}" class="text-sm/6 font-semibold text-gray-900" target="_blank" style="margin-right: 10px; text-align: center;">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
+                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="margin-right: 10px;">Post Property</a>
+                </div>
+            {% endif %}
         </div>
         </nav>
 
@@ -606,8 +651,6 @@
     <!-- End of Header/Nav and Hero Section -->
     
     {% block body %}{% endblock %}
-
-    <div class="divider"></div>
 
     <!-- Footer -->
     <footer>
