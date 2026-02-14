@@ -32,6 +32,112 @@
     </div>
     <!-- End of Header/Nav and Hero Section -->
 
+     <!-- Categories section -->
+<div class="pt-32 pb-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="mb-10">
+            <h1 class="text-3xl font-semibold text-gray-900 text-center">Available Rentals in Kampala</h1>
+        </div>
+        
+         <!-- Property Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 gap-6">
+                
+               <!-- Property Card 1 - Single Room -->
+<div class="property-card bg-white rounded-lg overflow-hidden">
+    <div class="property-image img-single-room">
+        <a href="{{ url_for('public.listings') }}" class="block group">
+            <div class="property-image-content">
+                <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" alt="Single Room" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+        </a>
+    </div>
+    <div class="p-5">
+        <div class="flex justify-between items-start mb-2">
+            <div class="flex-1">
+                <h3 class="text-base font-medium text-gray-900">Single Rooms</h3> <!-- Fixed font-small to font-medium -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Property Card 2 - Hostel -->
+<div class="property-card bg-white rounded-lg overflow-hidden">
+    <div class="property-image img-hostel">
+        <a href="{{ url_for('public.listings') }}" class="block group">
+            <div class="property-image-content">
+                <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" alt="Hostel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+        </a>
+    </div>
+    <div class="p-5">
+        <div class="flex justify-between items-start mb-2">
+            <div class="flex-1">
+                <h3 class="text-base font-medium text-gray-900">Hostels</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Property Card 3 - Apartment -->
+<div class="property-card bg-white rounded-lg overflow-hidden">
+    <div class="property-image img-apartment">
+        <a href="{{ url_for('public.listings') }}" class="block group">
+            <div class="property-image-content">
+                <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" alt="Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+        </a>
+    </div>
+    <div class="p-5">
+        <div class="flex justify-between items-start mb-2">
+            <div class="flex-1">
+                <h3 class="text-base font-medium text-gray-900">Apartments</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Property Card 4 - Shop (from your earlier code) -->
+<div class="property-card bg-white rounded-lg overflow-hidden">
+    <div class="property-image img-shop">
+        <a href="{{ url_for('public.listings') }}" class="block group">
+            <div class="property-image-content">
+                <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" alt="Shop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+        </a>
+    </div>
+    <div class="p-5">
+        <div class="flex justify-between items-start mb-2">
+            <div class="flex-1">
+                <h3 class="text-base font-medium text-gray-900">Shops</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Property Card 5 - Office -->
+<div class="property-card bg-white rounded-lg overflow-hidden">
+    <div class="property-image img-office">
+        <a href="{{ url_for('public.listings') }}" class="block group">
+            <div class="property-image-content">
+                <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" alt="Office" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+        </a>
+    </div>
+    <div class="p-5">
+        <div class="flex justify-between items-start mb-2">
+            <div class="flex-1">
+                <h3 class="text-base font-medium text-gray-900">Offices</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
     <!--pricing section-->
     <div class="container" id="pricing" style="margin-top: 120px; padding: 20px;">
         <div class="header">
@@ -107,6 +213,5 @@ Contact agents instantly on WhatsApp. No signup required</p>
         </div>
     </section>
 
-
-  {% endblock %}
+    {% endblock %}
 </html>
