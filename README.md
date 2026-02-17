@@ -1,3 +1,5 @@
+![App Screenshot](app/static/images/quickrent_logo-1.png)
+
 # QuickRent — Rentals & Property Directory – Kampala
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
@@ -8,6 +10,16 @@
 A simple web-based directory that connects renters in **Kampala** with **agents and property owners** via WhatsApp.
 
 The goal is to make finding **single rooms, hostels, apartments, shops, and offices** fast and clear.
+
+---
+
+## 📸 Screenshots
+
+### Home Page
+![Home](app/static/images/home.png)
+
+### Listings
+![Listings](app/static/images/listings.png)
 
 ---
 
@@ -103,7 +115,7 @@ pip install -r requirements.txt
 **4. Add environment variables**
 
 ```bash
-cp .env
+touch .env
 ```
 
 **5. Run the app**

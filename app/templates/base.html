@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}QuickRent{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!--  JavaScript file -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- link for the footer -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/listings_detail.css') }}">
+<style>
+    .property-card {
+        transition: transform 0.15s ease;
+    }
+    
+    .property-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .property-image {
+        position: relative;
+        overflow: hidden;
+        background: #f3f4f6;
+    }
+
+    .property-image::before {
+        content: '';
+        display: block;
+        padding-top: 75%; /* 4:3 aspect ratio - less tall */
+    }
+
+    .property-image-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    /* Simpler placeholder images */
+    .img-single-room { background: #e5e7eb; }
+    .img-hostel { background: #e5e7eb; }
+    .img-apartment { background: #e5e7eb; }
+    .img-shop { background: #e5e7eb; }
+    .img-office { background: #e5e7eb; }
+    
+    /* Search bar styles */
+    .navbar-search {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border: 0.2px solid #4A4F47;
+        border-radius: 40px;
+        padding: 4px 4px 4px 16px;
+        gap: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-search:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    .search-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        border-right: 1px solid #E5E7EB;
+        padding-right: 8px;
+        position: relative;
+        flex: 0 1 auto;
+        min-width: auto;
+    }
+    
+    .search-dropdown:last-of-type {
+        border-right: none;
+    }
+    
+    .search-select {
+        border: none;
+        background: transparent;
+        font-size: 13px;
+        color: #1a2332;
+        outline: none;
+        cursor: pointer;
+        padding: 6px 0;
+        max-width: 100px;
+    }
+
+    /* Modern Dropdown Styling */
+    .custom-dropdown {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: transparent;
+        border: none;
+        font-size: 13px;
+        color: #1a2332;
+        cursor: pointer;
+        padding: 6px 0;
+        width: 100%;
+        font-family: inherit;
+        font-weight: 500;
+    }
+
+    .dropdown-toggle:hover {
+        color: #4F46E5;
+    }
+
+    .dropdown-chevron {
+        transition: transform 0.3s ease;
+        width: 16px;
+        height: 16px;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    .dropdown-toggle.active .dropdown-chevron {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: -12px;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(74, 79, 71, 0.15);
+        border-radius: 16px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        min-width: 240px;
+        z-index: 1000;
+        padding: 10px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dropdown-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    .dropdown-option {
+        padding: 12px 20px;
+        color: #1a2332;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        margin: 0 6px;
+    }
+
+    .dropdown-option:hover {
+        background: rgba(79, 70, 229, 0.1);
+        color: #4F46E5;
+        padding-left: 24px;
+    }
+
+    .dropdown-option.selected {
+        background: rgba(79, 70, 229, 0.15);
+        color: #4F46E5;
+        font-weight: 500;
+        padding-left: 24px;
+    }
+
+    .dropdown-checkmark {
+        margin-left: auto;
+        width: 18px;
+        height: 18px;
+        display: none;
+        flex-shrink: 0;
+    }
+
+    .dropdown-option.selected .dropdown-checkmark {
+        display: block;
+        color: #4F46E5;
+    }
+    
+    .search-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: #4F46E5;
+        border: none;
+        border-radius: 40px;
+        padding: 8px 20px;
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    
+    .search-button:hover {
+        background-color: #6366F1;
+    }
+    
+    @media (max-width: 1200px) {
+        .navbar-search {
+            display: none; /* Hide on smaller screens, show in mobile menu */
+        }
+    }
+</style>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-white" style="">
+    <!-- Header/Navbar Section -->
+    <div class="bg-white">
+        
+    <!-- Header -->
+    <header class="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-lg border-gray-200/50 shadow-sm">
+        <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8">
+        
+        <!-- Logo -->
+        <div class="flex lg:flex-1">
+            <a href="{{ url_for('public.home') }}" class="-m-1.5 p-1.5">
+            <span class="sr-only">QuickRent</span>
+            <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto;"/>
+            </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="flex lg:hidden">
+            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+            <span class="sr-only">Open main menu</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            </button>
+        </div>
+
+        <!-- Desktop Navigation + Centered Search -->
+        <div class="hidden lg:flex lg:gap-x-12">
+            <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900">Browse Rentals</a>
+
+            <!-- Tailwind Elements Dropdown Menu -->
+            <!-- Categories Mega Menu (using your Tailwind Elements popover) -->
+                <div class="relative">
+                <button popovertarget="desktop-menu-solutions" class="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+                    <span>Categories</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                    <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <el-popover id="desktop-menu-solutions" anchor="bottom" popover class="w-screen max-w-max overflow-visible bg-transparent px-4 transition transition-discrete [--anchor-gap:--spacing(5)] backdrop:bg-transparent open:flex data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+                    <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 shadow-lg outline-1 outline-gray-900/5">
+                    <div class="p-4">
+
+                        <!-- Single Rooms-->
+                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            class="size-6 text-gray-600 group-hover:text-indigo-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 10.5 12 3l9 7.5M4.5 9.75V21h15V9.75" />
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="#" class="font-semibold text-gray-900">
+                            Single Rooms
+                            <span class="absolute inset-0"></span>
+                            </a>
+                            <p class="mt-1 text-gray-600">Find verified single rooms in Kampala</p>
+                        </div>
+                        </div>
+
+                        <!-- Hostels-->
+                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            class="size-6 text-gray-600 group-hover:text-indigo-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 21h18M4 21V7a2 2 0 012-2h12a2 2 0 012 2v14M8 10h2v2H8v-2zm4 0h2v2h-2v-2zm-4 4h2v2H8v-2zm4 0h2v2h-2v-2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="#" class="font-semibold text-gray-900">
+                            Hostels
+                            <span class="absolute inset-0"></span>
+                            </a>
+                            <p class="mt-1 text-gray-600">Find verified hostels in Kampala</p>
+                        </div>
+                        </div>
+
+                        <!-- Apartments -->
+                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            class="size-6 text-gray-600 group-hover:text-indigo-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M4 21h16M9 9h2m-2 4h2m4-4h2m-2 4h2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="#" class="font-semibold text-gray-900">
+                            Apartments
+                            <span class="absolute inset-0"></span>
+                            </a>
+                            <p class="mt-1 text-gray-600">Find verified&#039; apartments in Kampala</p>
+                        </div>
+                        </div>
+
+                        <!-- Shops-->
+                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            class="size-6 text-gray-600 group-hover:text-indigo-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 9l1.5-4.5h15L21 9M4 9v10h16V9M9 13h6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="#" class="font-semibold text-gray-900">
+                            Shops
+                            <span class="absolute inset-0"></span>
+                            </a>
+                            <p class="mt-1 text-gray-600">Find verified shops in Kampala</p>
+                        </div>
+                        </div>
+
+                        <!-- Offices -->
+                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            class="size-6 text-gray-600 group-hover:text-indigo-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 21h18M6 21V7a2 2 0 012-2h8a2 2 0 012 2v14M9 10h2m-2 4h2m4-4h2m-2 4h2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="#" class="font-semibold text-gray-900">
+                            Offices
+                            <span class="absolute inset-0"></span>
+                            </a>
+                            <p class="mt-1 text-gray-600">Find verified offices in Kampala</p>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- View All Categories -->
+                    <div class="p-4">
+                        <a href="{{ url_for('listing.listings') }}" target="" class="block w-full rounded-md bg-gray-50 px-4 py-2 text-center text-sm font-semibold text-gray-900 hover:bg-gray-100">View all categories</a>
+                    </div>
+                    </div>
+                </el-popover>
+                </div>
+                <!-- End of Dropdown Menu -->
+
+            <a href="#" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Agent</a>
+            <a href="#pricing" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Pricing</a>
+            
+        </div>
+
+        <!-- Auth / CTA-->
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+            {% if current_user.is_authenticated %}
+                <!--<div class="hidden lg:flex lg:gap-x-12">
+                    <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900">My Listings</a>
+                    <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">Dashboard</a>
+                    <a href="#" class="text-sm/6 font-semibold text-gray-900">Add Listing</a>
+                    <a href="#pricing" class="text-sm/6 font-semibold text-gray-900">Pricing</a>
+                </div>>-->
+
+                <div class="flex items-center gap-4">
+                <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="text-sm/6 font-semibold text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                    </svg>
+                </a>
+                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                </div>
+            {% else %}
+                <div class="flex items-center gap-4">
+                <a href="{{ url_for('auth.login') }}" class="text-sm/6 font-semibold text-gray-900" target="_blank" style="margin-right: 10px; text-align: center;">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
+                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="margin-right: 10px;">Post Property</a>
+                </div>
+            {% endif %}
+        </div>
+        </nav>
+
+        <!-- Second Row - Search Bar (Under Home, Categories, Agent, Pricing) -->
+            <div class="hidden lg:flex lg:justify-center lg:py-4 lg:px-8">
+                <div style="width: 100%; max-width: 470px; background-color: transparent; backdrop-filter: none; border-radius: 40px; padding: 6px 6px 6px 6px; display: flex; align-items: center; gap: 12px; border: 0.2px solid #4A4F47; opacity: 0.95; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s ease;" id="searchBarContainer">
+    
+                    <!-- Location Dropdown -->
+                    <div class="search-dropdown">
+                        <svg style="width: 18px; height: 18px; color: #4A4F47; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                        </svg>
+                        <div class="custom-dropdown" id="locationDropdown">
+                            <button class="dropdown-toggle" data-dropdown="location">
+                                <span>Location</span>
+                                <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu" id="locationMenu">
+                                <div class="dropdown-option" data-value="kampala">
+                                    <option value="kampala">Kampala</option>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="makerere">
+                                    <span>Makerere</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="kikoni">
+                                    <span>Kikoni</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="wandegeya">
+                                    <span>Wandegeya</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Filter -->
+                    <div class="search-dropdown">
+                        <svg style="width: 18px; height: 18px; color: #4A4F47; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div class="custom-dropdown" id="priceDropdown">
+                            <button class="dropdown-toggle" data-dropdown="price">
+                                <span>Price</span>
+                                <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu" id="priceMenu">
+                                <div class="dropdown-option" data-value="250">
+                                    <span>250K</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="350">
+                                    <span>350K</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="500">
+                                    <span>500K</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="800">
+                                    <span>800K</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="1000">
+                                    <span>1M</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Property Type Dropdown -->
+                    <div class="search-dropdown">
+                        <svg style="width: 18px; height: 18px; color: #4A4F47; opacity: 0.6;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 3l9 7.5M4.5 9.75V21h15V9.75" />
+                        </svg>
+                        <div class="custom-dropdown" id="propertyDropdown">
+                            <button class="dropdown-toggle" data-dropdown="property" style="white-space: nowrap;">
+                                <span>Property Type</span>
+                                <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu" id="propertyMenu">
+                                <div class="dropdown-option" data-value="single">
+                                    <span>Single</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="hostel">
+                                    <span>Hostel</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="apartment">
+                                    <span>Apartment</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="shop">
+                                    <span>Shop</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                                <div class="dropdown-option" data-value="office">
+                                    <span>Office</span>
+                                    <svg class="dropdown-checkmark" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Button -->
+                    <button class="search-button">
+                        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        Search
+                    </button>
+                </div>
+            </div> 
+        <!-- End of Search-Bar -->
+
+        <el-dialog>
+        <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+            <div tabindex="0" class="fixed inset-0 focus:outline-none">
+            <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <div class="flex items-center justify-between">
+                <a href="#" class="-m-1.5 p-1.5">
+                    <span class="sr-only">QuickRent</span>
+                    <!--<img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />-->
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuickRent Logo" class="h-8 w-auto" />
+                </a>
+                <button type="button" command="close" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                    <span class="sr-only">Close menu</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                    <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                </div>
+                <div class="mt-6 flow-root">
+                <div class="-my-6 divide-y divide-500/10">
+                    <div class="space-y-2 py-6">
+                    <a href="{{ url_for('public.home') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Home</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Categories</a>
+
+                    <!-- Mobile Search Section -->
+                            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #E5E7EB;">
+                                <h4 style="font-size: 14px; font-weight: 600; color: #4A4F47; margin-bottom: 12px;">Search Properties</h4>
+                                <!-- Location Dropdown -->
+                                <div style="margin-bottom: 12px;">
+                                    <label style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;">Location</label>
+                                    <select style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;">
+                                        <option value="" disabled selected>Select location</option>
+                                        <option value="kampala">Kampala</option>
+                                        <option value="makerere">Makerere</option>
+                                        <option value="kikoni">Kikoni</option>
+                                        <option value="wandegeya">Wandegeya</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Property Type Dropdown -->
+                                <div style="margin-bottom: 12px;">
+                                    <label style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;">Property Type</label>
+                                    <select style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;">
+                                        <option value="" disabled selected>Select type</option>
+                                        <option value="single">Single Room</option>
+                                        <option value="hostel">Hostel</option>
+                                        <option value="apartment">Apartment</option>
+                                        <option value="shop">Shop</option>
+                                        <option value="office">Office</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Price Filter -->
+                                <div style="margin-bottom: 16px;">
+                                    <label style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;">Max Price</label>
+                                    <select style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;">
+                                        <option value="" disabled selected>Select price</option>
+                                        <option value="250">UGX 250K</option>
+                                        <option value="350">UGX 350K</option>
+                                        <option value="500">UGX 500K</option>
+                                        <option value="800">UGX 800K</option>
+                                        <option value="1000">UGX 1M</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Search Button -->
+                                <button style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #4F46E5; border: none; border-radius: 8px; padding: 12px; color: white; font-size: 14px; font-weight: 500; cursor: pointer;">
+                                    <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="m21 21-4.35-4.35"></path>
+                                    </svg>
+                                    Search
+                                </button>
+                            </div>
+                            <!-- End of mobile menu searchbar-->
+
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Agent</a>
+                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Pricing</a>
+                    </div>
+                    <div class="py-6">
+                    <a href="{{ url_for('auth.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
+                    <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                    </div>
+                </div>
+                </div>
+            </el-dialog-panel>
+            </div>
+        </dialog>
+        </el-dialog>
+    </header>
+    <!-- End of Header -->
+    </div>
+    <!-- End of Header/Nav and Hero Section -->
+    
+    {% block body %}{% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="Logo" style="width: 110px; height: auto;">
+                </div>
+
+                <div class="footer-section">
+                    <h3>Rentals</h3>
+                    <ul>
+                        <li><a href="{{ url_for('listing.listings', category='single_rooms') }}">Single Rooms</a></li>
+                        <li><a href="{{ url_for('listing.listings', category='hostels') }}">Hostels</a></li>
+                        <li><a href="{{ url_for('listing.listings', category='apartments') }}">Apartments</a></li>
+                        <li><a href="{{ url_for('listing.listings', category='shops') }}">Shops</a></li>
+                        <li><a href="{{ url_for('listing.listings', category='offices') }}">Offices</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>For Agents</h3>
+                    <ul>
+                        <li><a href="#">Post a Property</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Featured Listings</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">Agent Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Report a Listing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Renting Tips</a></li>
+                        <li><a href="#">Area Guides</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2026 QuickRent. All rights reserved.</div>
+                <div class="footer-social">
+                    <a href="#" title="Facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm4.441 15.892c-1.005 1.005-2.363 1.557-3.85 1.557-1.487 0-2.845-.552-3.85-1.557-1.005-1.005-1.557-2.363-1.557-3.85 0-1.487.552-2.845 1.557-3.85 1.005-1.005 2.363-1.557 3.85-1.557 1.487 0 2.845.552 3.85 1.557 1.005 1.005 1.557 2.363 1.557 3.85 0 1.487-.552 2.845-1.557 3.85z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="GitHub">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="YouTube">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+</body>
+</html>

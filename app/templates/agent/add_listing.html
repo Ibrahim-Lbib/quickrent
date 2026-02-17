@@ -1,0 +1,40 @@
+{% extends "dashboard_layout.html" %}
+
+{% block dashboard_content %}
+
+<h1 class="text-2xl font-semibold mb-6">Add New Listing</h1>
+
+<form method="POST" class="space-y-4 max-w-lg">
+
+  <input name="title" placeholder="Title"
+    class="w-full border p-3 rounded" required>
+
+  <input name="price" placeholder="Price"
+    class="w-full border p-3 rounded" required>
+
+  <select name="category" class="w-full border p-3 rounded">
+
+    <option value="single_room">Single Room</option>
+    <option value="hostel">Hostel</option>
+    <option value="apartment">Apartment</option>
+    <option value="shop">Shop</option>
+    <option value="office">Office</option>
+
+  </select>
+
+  <input name="location" placeholder="Location"
+    class="w-full border p-3 rounded" required>
+
+  <input name="whatsapp" placeholder="WhatsApp Number"
+    class="w-full border p-3 rounded" required>
+
+  <textarea name="description" placeholder="Description"
+    class="w-full border p-3 rounded"></textarea>
+
+  <button class="bg-gray-900 text-white px-6 py-3 rounded">
+    Create Listing
+  </button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+{% block title %}Available Rentals - QuickRent{% endblock %}
+{% block head %}
+<style>
+    /* Featured Badge Gradient */
+    .featured-badge {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- Page Header -->
+<div class="bg-white border-b border-gray-200 py-8 px-6 mb-12">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2 tracking-tight">Available Rentals in Kampala</h1>
+        <p class="text-lg text-gray-500">Browse verified properties and contact agents instantly</p>
+    </div>
+</div>
+
+<!-- Filters Section -->
+<div class="max-w-7xl mx-auto mb-8 px-6">
+    <div class="bg-white border border-gray-200 rounded-xl p-6 flex flex-wrap gap-4 items-center shadow-sm">
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label class="text-sm font-semibold text-gray-700">Property Type</label>
+            <select class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100">
+                <option>All Types</option>
+                <option>Single Room</option>
+                <option>Apartment</option>
+                <option>Hostel</option>
+                <option>Shop</option>
+                <option>Office</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label class="text-sm font-semibold text-gray-700">Location</label>
+            <select class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100">
+                <option>All Locations</option>
+                <option>Ntinda</option>
+                <option>Kampala</option>
+                <option>Nakawa</option>
+                <option>Wandegeya</option>
+                <option>Makerere</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-2 flex-1 min-w-[200px]">
+            <label class="text-sm font-semibold text-gray-700">Price Range</label>
+            <select class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100">
+                <option>Any Price</option>
+                <option>Under 200K</option>
+                <option>200K - 500K</option>
+                <option>500K - 1M</option>
+                <option>Above 1M</option>
+            </select>
+        </div>
+
+        <button class="px-6 py-2.5 bg-indigo-600 text-white border-0 rounded-lg text-sm font-semibold cursor-pointer transition-all hover:bg-indigo-700 self-end md:self-auto">
+            Apply Filters
+        </button>
+    </div>
+</div>
+
+<!-- Listings Grid -->
+<div class="max-w-7xl mx-auto px-6 pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Featured Listing 1 -->
+        <div class="bg-white border-2 border-amber-400 rounded-2xl overflow-hidden transition-all duration-300 hover:border-amber-500 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="absolute top-3 left-3 featured-badge text-white px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wide shadow-md z-10">
+                Featured
+            </div>
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" 
+                     alt="2 Bedroom Apartment"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">2 Bedroom Apartment – Ntinda</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 800,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Ntinda, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Modern 2 bedroom apartment with spacious living room, fitted kitchen, and secure parking. 
+                    Close to shops and public transport.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Featured Listing 2 -->
+        <div class="bg-white border-2 border-amber-400 rounded-2xl overflow-hidden transition-all duration-300 hover:border-amber-500 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="absolute top-3 left-3 featured-badge text-white px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wide shadow-md z-10">
+                Featured
+            </div>
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" 
+                     alt="3 Bedroom Apartment"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">3 Bedroom Apartment – Nakawa</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 1,200,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Nakawa, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Luxurious 3 bedroom apartment with master ensuite, balcony, backup generator, 
+                    and 24/7 security. Perfect for families.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 1 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" 
+                     alt="Single Room"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">Single Room – Makerere</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 180,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Makerere, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Cozy single room with shared bathroom and kitchen. Ideal for students, 
+                    close to Makerere University campus.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 2 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" 
+                     alt="Hostel Room"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">Hostel Room – Wandegeya</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 150,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Wandegeya, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Affordable hostel accommodation with WiFi, water, and security. 
+                    Perfect for students on a budget.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 3 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" 
+                     alt="Shop Space"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">Shop Space – Kampala Road</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 600,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Kampala Road, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Prime commercial space in busy area. Great for retail business, 
+                    with high foot traffic and ample space.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 4 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" 
+                     alt="Office Space"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">Office Space – Kololo</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 1,500,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Kololo, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Professional office space with conference room, parking, and 24/7 security. 
+                    Ideal for corporate offices and startups.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 5 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" 
+                     alt="Single Room"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">Single Room – Ntinda</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 200,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Ntinda, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Self-contained single room with private bathroom, kitchen area, and water supply. 
+                    Quiet and secure neighborhood.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Listing 6 -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-xl relative flex flex-col shadow-sm">
+            <div class="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" 
+                     alt="1 Bedroom Apartment"
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-snug">1 Bedroom Apartment – Bugolobi</h3>
+                <div class="text-xl font-bold text-indigo-600 mb-2">
+                    UGX 500,000<span class="text-xs font-normal text-gray-500">/month</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Bugolobi, Kampala
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+                    Charming 1 bedroom apartment with modern fittings, balcony, and parking. 
+                    Close to restaurants and shopping centers.
+                </p>
+                <a href="#" class="w-full px-3 py-2 bg-indigo-600 text-white border-0 rounded-lg text-xs font-semibold cursor-pointer transition-all hover:bg-indigo-700 hover:-translate-y-0.5 hover:shadow-md text-center inline-block no-underline">
+                    View Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
