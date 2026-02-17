@@ -12,7 +12,7 @@
   <!-- Sidebar -->
   <aside class="w-60 bg-white border-r border-gray-200 flex flex-col fixed h-screen left-0 top-0">
     <!-- Logo -->
-    <div class="p-0 border-b border-gray-200">
+    <div class="p-0 border-b border-gray-200" onclick="window.location.href='{{ url_for('public.home') }}'" style="cursor: pointer;">
       <div class="w-32 h-32 rounded-lg flex items-center justify-center">
         <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" style="width: 110px; height: auto;">
       </div>
@@ -98,8 +98,11 @@
 
     <!-- User Profile -->
     <div class="p-3 border-t border-gray-200 flex items-center gap-3">
-      <div class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="User" class="w-full h-full object-cover">
+      <div class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden flex-shrink-0 flex items-center justify-center">
+        <!--<img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="User" class="w-full h-full object-cover">-->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-400">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21c-2.676 0-5.216-.584-7.499-1.882z" />
+        </svg>
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-sm font-semibold text-gray-900 truncate">{{ current_user.full_name }}</div>
