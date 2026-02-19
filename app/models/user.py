@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     
     password_hash = db.Column(db.String(255), nullable=False)
     
-    create_at = db.Column(db.DateTime, default=db.func.now())
+    created_at = db.Column(db.DateTime, default=db.func.now())
     
     listings = db.relationship('Listing', backref='agent', lazy=True)
     

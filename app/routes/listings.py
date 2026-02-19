@@ -1,51 +1,71 @@
 # browse, search
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from app.models.user import User
+import os
+import uuid
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask_login import login_required, current_user
+
 from app.models.listing import Listing
 from app.extensions import db
 
 listing_bp = Blueprint('listing', __name__, url_prefix='/dashboard')
 
-@listing_bp.route('/listings')
-def listings():
-    fake_properties = [
-        {"title": "Cozy Room", "location": "Kampala", "price": "UGX 300K", "type": "single-room", "image": "static/listings/single-room-01.avif"},
-        {"title": "Nice Apartment", "location": "Ntinda", "price": "UGX 900K", "type": "apartment", "image": "static/listings/apartment-01.jpg"},
-        # add more...
-    ]
-    properties = fake_properties
-    return render_template('listings.html', properties=properties)
+ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "avif", "gif"}
 
-@listing_bp.route('/listings/listings_detail')
-def listing_detail():
-    return render_template('listing_detail.html')
+def _allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def _save_image(file):
+    ext = file.filename.rsplit('.', 1)[1].lower()
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    upload_folder = os.path.join(current_app.root_path, "static", "listings", "listings")
+    os.makedirs(upload_folder, exist_ok=True)
+    file.save(os.path.join(upload_folder, filename))
+    return filename
+
+@listing_bp.route('/listings')
+@login_required
+def listings():
+    agent_listings = Listing.query.filter_by(user_id=current_user.id).order_by(Listing.created_at.desc()).all()
+    return render_template('listings.html', listings=agent_listings)
 
 @listing_bp.route('/add', methods=['GET', 'POST'])
+@login_required
 def add_listing():
-    
-    # must be logged in to add listing
-    if "user_id" not in session:
-        flash("Please log in to add a listing.", "error")
-        return redirect(url_for('auth.login'))
-    
     if request.method == "POST":
-        title = request.form.get("title")
-        price = request.form.get("price")
-        category = request.form.get("category")
-        location = request.form.get("location")
-        description = request.form.get("description")
-        whatsapp = request.form.get("whatsapp")
-        image = request.files.get("image")
+        title = request.form.get("title").strip()
+        price = request.form.get("price").strip()
+        category = request.form.get("category").strip()
+        location = request.form.get("location").strip()
+        description = request.form.get("description").strip()
+        whatsapp = request.form.get("whatsapp").strip()
+        image_file = request.files.get("image")
+        
+        if not all([title, price, category, location, description, whatsapp]):
+            flash("Title, price, location, and WhatsApp number are required.", "error")
+            return render_template('agent/add_listing.html')
+        
+        image_filename = None
+        if image_file and image_file.filename:
+            if not _allowed_file(image_file.filename):
+                flash("Invalid image format. Use JPG, JPEG, PNG, WEBP, AVIF or GIF.", "error")
+                return render_template('agent/add_listing.html')
+            image_filename = _save_image(image_file)
+            
+        try:
+            price_int = int(price.replace(",", "").replace(" ", ""))
+        except ValueError:
+            flash("Price must be a valid number.", "error")
+            return render_template('agent/add_listing.html')
         
         listing = Listing(
             title=title,
-            price=price,
-            category=category,
+            price=price_int,
+            type=category,
             location=location,
-            description=description,
+            description=description or "No description provided.",
             whatsapp=whatsapp,
-            image=image.filename,  # In a real app, you'd save the file and store the path
-            user_id=session["user_id"]
+            image=image_filename,  # In a real app, you'd save the file and store the path
+            user_id=current_user.id
         )
         
         db.session.add(listing)
@@ -55,3 +75,8 @@ def add_listing():
         return redirect(url_for('auth.dashboard'))
     
     return render_template('agent/add_listing.html')
+
+@listing_bp.route('/listings/<int:listing_id>/', methods=['GET'])
+def listing_detail(listing_id):
+    listing = Listing.query.get_or_404(listing_id)
+    return render_template('agent/listing_detail.html', listing=listing)

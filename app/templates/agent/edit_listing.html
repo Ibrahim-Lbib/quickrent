@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Listing - QuickRent{% endblock %}
+
+{% block body %}
+<div class="max-w-2xl mx-auto px-6 py-12 mt-16">
+    <div class="flex items-center gap-3 mb-8">
+        <a href="{{ url_for('agent.dashboard') }}"
+           class="text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </a>
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Edit Listing</h1>
+            <p class="text-gray-500 text-sm mt-0.5">Changes go live immediately.</p>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="mb-4 px-4 py-3 rounded-lg text-sm font-medium
+                {% if category == 'error' %}bg-red-50 text-red-700 border border-red-200
+                {% else %}bg-green-50 text-green-700 border border-green-200{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST"
+          action="{{ url_for('agent.edit_listing', listing_id=listing.id) }}"
+          enctype="multipart/form-data"
+          class="space-y-5 bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Title</label>
+            <input name="title" value="{{ listing.title }}"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Price (UGX/month)</label>
+            <input name="price" type="number" value="{{ listing.price }}"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Property Type</label>
+            <select name="category"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+                <option value="single_room"  {% if listing.type == 'single_room'  %}selected{% endif %}>Single Room</option>
+                <option value="hostel"       {% if listing.type == 'hostel'       %}selected{% endif %}>Hostel</option>
+                <option value="apartment"    {% if listing.type == 'apartment'    %}selected{% endif %}>Apartment</option>
+                <option value="shop"         {% if listing.type == 'shop'         %}selected{% endif %}>Shop</option>
+                <option value="office"       {% if listing.type == 'office'       %}selected{% endif %}>Office</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Location</label>
+            <input name="location" value="{{ listing.location }}"
+                placeholder="e.g. Ntinda, Wandegeya, Makerere"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
+            <input name="whatsapp" type="tel" value="{{ listing.whatsapp }}"
+                placeholder="e.g. 0701234567"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+            <textarea name="description" rows="4"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 resize-none">{{ listing.description }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Replace Photo</label>
+            {% if listing.image %}
+                <div class="mb-3 flex items-center gap-3">
+                    <img src="{{ url_for('static', filename='images/listings/' + listing.image) }}"
+                         class="w-20 h-16 object-cover rounded-lg border border-gray-200">
+                    <span class="text-xs text-gray-400">Current photo. Upload a new one to replace it.</span>
+                </div>
+            {% endif %}
+            <input name="image" type="file" accept=".jpg,.jpeg,.png,.webp,.avif"
+                class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm
+                       file:mr-4 file:py-1 file:px-3 file:rounded file:border-0
+                       file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700
+                       hover:file:bg-indigo-100">
+            <p class="text-xs text-gray-400 mt-1">Leave empty to keep the current photo.</p>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+            <button type="submit"
+                class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold
+                       px-6 py-3 rounded-lg text-sm transition-colors">
+                Save Changes
+            </button>
+            <a href="{{ url_for('agent.dashboard') }}"
+               class="px-6 py-3 border border-gray-300 rounded-lg text-sm font-semibold
+                      text-gray-600 hover:bg-gray-50 transition-colors text-center">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+    <!-- Danger Zone -->
+    <div class="mt-6 bg-white border border-red-200 rounded-2xl p-6">
+        <h3 class="text-sm font-bold text-red-700 mb-1">Danger Zone</h3>
+        <p class="text-xs text-gray-500 mb-4">Deleting a listing is permanent. Renters will no longer be able to find or contact you through it.</p>
+        <form method="POST" action="{{ url_for('agent.delete_listing', listing_id=listing.id) }}"
+              onsubmit="return confirm('Delete this listing? This cannot be undone.')">
+            <button type="submit"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg transition-colors">
+                Delete Listing
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
