@@ -1,40 +1,79 @@
-{% extends "dashboard_layout.html" %}
+{% extends "base.html" %}
 
-{% block dashboard_content %}
+{% block title %}Add Listing - QuickRent{% endblock %}
 
-<h1 class="text-2xl font-semibold mb-6">Add New Listing</h1>
+{% block body %}
+<div class="max-w-2xl mx-auto px-6 py-12 mt-16">
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Add New Listing</h1>
+  <p class="text-gray-500 mb-8">Fill in the details below. Renters will contact you directly on WhatsApp.</p>
 
-<form method="POST" class="space-y-4 max-w-lg">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="mb-4 px-4 py-3 rounded-lg text-sm font-medium
+        {% if category == 'error' %}bg-red-50 text-red-700 border border-red-200
+        {% else %}bg-green-50 text-green-700 border border-green-200{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endwith %}
 
-  <input name="title" placeholder="Title"
-    class="w-full border p-3 rounded" required>
+  <!-- FIX: enctype required for file uploads -->
+  <form method="POST" enctype="multipart/form-data" class="space-y-5 bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
 
-  <input name="price" placeholder="Price"
-    class="w-full border p-3 rounded" required>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Title</label>
+      <input name="title" placeholder="e.g. Cozy Single Room – Makerere"
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+    </div>
 
-  <select name="category" class="w-full border p-3 rounded">
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Price (UGX/month)</label>
+      <input name="price" type="number" placeholder="e.g. 250000"
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+    </div>
 
-    <option value="single_room">Single Room</option>
-    <option value="hostel">Hostel</option>
-    <option value="apartment">Apartment</option>
-    <option value="shop">Shop</option>
-    <option value="office">Office</option>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Property Type</label>
+      <select name="category" class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
+        <option value="single_room">Single Room</option>
+        <option value="hostel">Hostel</option>
+        <option value="apartment">Apartment</option>
+        <option value="shop">Shop</option>
+        <option value="office">Office</option>
+      </select>
+    </div>
 
-  </select>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Location (area in Kampala)</label>
+      <input name="location" placeholder="e.g. Ntinda, Wandegeya, Makerere"
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+    </div>
 
-  <input name="location" placeholder="Location"
-    class="w-full border p-3 rounded" required>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
+      <input name="whatsapp" type="tel" placeholder="e.g. +256701234567"
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+      <p class="text-xs text-gray-400 mt-1">Renters will contact you directly on this number.</p>
+    </div>
 
-  <input name="whatsapp" placeholder="WhatsApp Number"
-    class="w-full border p-3 rounded" required>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+      <textarea name="description" rows="4" placeholder="Describe the property – size, amenities, access to transport, etc."
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 resize-none"></textarea>
+    </div>
 
-  <textarea name="description" placeholder="Description"
-    class="w-full border p-3 rounded"></textarea>
+    <!-- FIX #5: Image upload field - actually saves the file now -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Property Photo</label>
+      <input name="image" type="file" accept=".jpg,.jpeg,.png,.webp,.avif"
+        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+      <p class="text-xs text-gray-400 mt-1">JPG, PNG, WEBP or AVIF. Max recommended: 5MB.</p>
+    </div>
 
-  <button class="bg-gray-900 text-white px-6 py-3 rounded">
-    Create Listing
-  </button>
-
-</form>
-
+    <button type="submit"
+      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors">
+      Post Listing
+    </button>
+  </form>
+</div>
 {% endblock %}
