@@ -6,7 +6,6 @@
     <title>{% block title %}QuickRent{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <!--  JavaScript file -->
@@ -224,25 +223,22 @@
 </style>
     {% block head %}{% endblock %}
 </head>
-<body class="bg-white" style="">
-    <!-- Header/Navbar Section -->
-    <div class="bg-white">
-        
+<body class="bg-white">
     <!-- Header -->
-    <header class="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-lg border-gray-200/50 shadow-sm">
-        <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8">
+    <header class="fixed inset-x-0 top-0 z-50 duration-300" id="main-header">
+        <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8 bg-white/80 backdrop-blur-lg border-gray-200/50 shadow-sm" id="nav-bar">
         
         <!-- Logo -->
         <div class="flex lg:flex-1">
             <a href="{{ url_for('public.home') }}" class="-m-1.5 p-1.5">
-            <span class="sr-only">QuickRent</span>
-            <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto;"/>
+                <span class="sr-only">QuickRent</span>
+                <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" class="h-8 w-auto" style="width: 100px; height: auto;"/>
             </a>
         </div>
 
         <!-- Mobile menu button -->
         <div class="flex lg:hidden">
-            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700" id="mobile-menu-btn">
             <span class="sr-only">Open main menu</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -251,8 +247,8 @@
         </div>
 
         <!-- Desktop Navigation + Centered Search -->
-        <div class="hidden lg:flex lg:gap-x-12">
-            <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900 hover:text-indigo-600">Browse Rentals</a>
+        <div class="hidden lg:flex lg:gap-x-10 1g:items-center">
+            <a href="{{ url_for('public.listings') }}" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">Browse Rentals</a>
 
             <!-- Tailwind Elements Dropdown Menu -->
             <!-- Categories Mega Menu (using your Tailwind Elements popover) -->
@@ -368,44 +364,110 @@
                 </div>
                 <!-- End of Dropdown Menu -->
 
-            <a href="#" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">For Agents</a>
-            <a href="#pricing" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Pricing</a>
+            <a href="#" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">For Agents</a>
+            <!--<a href="#pricing" class="text-sm  font-semibold text-gray-900 hover:text-indigo-600">Pricing</a>-->
+            <!-- More Dropdown Menu -->
+            <div class="relative">
+                <button popovertarget="desktop-menu-more" class="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-indigo-600">
+                    <span>More</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                        <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <el-popover id="desktop-menu-more" anchor="bottom" popover class="w-screen max-w-max overflow-visible bg-transparent px-4 transition transition-discrete [--anchor-gap:--spacing(5)] backdrop:bg-transparent open:flex data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+                    <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 shadow-lg outline-1 outline-gray-900/5">
+                        <div class="p-4">
+
+                            <!-- Pricing Plans -->
+                            <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    class="size-6 text-gray-600 group-hover:text-indigo-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a href="#pricing" class="font-semibold text-gray-900">
+                                        Pricing Plans
+                                        <span class="absolute inset-0"></span>
+                                    </a>
+                                    <p class="mt-1 text-gray-600">View our subscription plans and pricing</p>
+                                </div>
+                            </div>
+
+                            <!-- How it Works -->
+                            <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    class="size-6 text-gray-600 group-hover:text-indigo-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a href="#how-it-works" class="font-semibold text-gray-900">
+                                        How it Works
+                                        <span class="absolute inset-0"></span>
+                                    </a>
+                                    <p class="mt-1 text-gray-600">Learn how to use QuickRent platform</p>
+                                </div>
+                            </div>
+
+                            <!-- Contact Us -->
+                            <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    class="size-6 text-gray-600 group-hover:text-indigo-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <a href="#" class="font-semibold text-gray-900">
+                                        Contact Us
+                                        <span class="absolute inset-0"></span>
+                                    </a>
+                                    <p class="mt-1 text-gray-600">Get in touch with our support team</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </el-popover>
+            </div>
+            <!-- End of More Dropdown Menu -->
+        </div>
 
         <!-- Auth / CTA-->
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             {% if current_user.is_authenticated %}
-                <!--<div class="hidden lg:flex lg:gap-x-12">
-                    <a href="{{ url_for('public.listings') }}" class="text-sm/6 font-semibold text-gray-900">My Listings</a>
-                    <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">Dashboard</a>
-                    <a href="#" class="text-sm/6 font-semibold text-gray-900">Add Listing</a>
-                    <a href="#pricing" class="text-sm/6 font-semibold text-gray-900">Pricing</a>
-                </div>>-->
-
-                <div class="flex items-center gap-4">
-                <a href="{{ url_for('auth.dashboard') }}" class="text-sm/6 font-semibold text-gray-900">
+                <div class="flex items-center gap-5">
+                <a href="{{ url_for('auth.dashboard') }}" class="text-sm font-semibold text-gray-900 hover:text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </a>
-                <a href="{{ url_for('auth.logout') }}" class="text-sm/6 font-semibold text-gray-900">
+                <a href="{{ url_for('auth.logout') }}" class="text-sm/6 font-semibold text-gray-900 hover:text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                     </svg>
                 </a>
-                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                <a href="{{ url_for('agent.add_listing') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
                 </div>
             {% else %}
                 <div class="flex items-center gap-4">
-                <a href="{{ url_for('auth.login') }}" class="text-sm/6 font-semibold text-gray-900" target="_blank" style="margin-right: 10px; text-align: center;">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
-                <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="margin-right: 10px;">Post Property</a>
+                <a href="{{ url_for('auth.login') }}" class="text-sm font-semibold text-gray-900 hover:text-indigo-600" target="_blank" style="margin-right: 10px; text-align: center;">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
+                <a href="{{ url_for('agent.add_listing') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
                 </div>
             {% endif %}
         </div>
         </nav>
 
         <!-- Second Row - Search Bar (Under Home, Categories, Agent, Pricing) -->
-            <div class="hidden lg:flex lg:justify-center lg:py-4 lg:px-8">
-                <div style="width: 100%; max-width: 470px; background-color: transparent; backdrop-filter: none; border-radius: 40px; padding: 6px 6px 6px 6px; display: flex; align-items: center; gap: 12px; border: 0.2px solid #4A4F47; opacity: 0.95; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.3s ease;" id="searchBarContainer">
+            <div class="hidden lg:block bg-white/80 backdrop-blur-md border-b border-gray-200/50">
+                <div class="mx-auto max-w-7xl px-6 lg:px-8 py-3 flex justify-center" id="searchContainer">
+                    <div class="navbar-search w-full max-w-3xl">
     
                     <!-- Location Dropdown -->
                     <div class="search-dropdown">
@@ -552,11 +614,12 @@
                         Search
                     </button>
                 </div>
+                </div>
             </div> 
         <!-- End of Search-Bar -->
 
         <el-dialog>
-        <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+        <dialog id="mobile-menu" class="backdrop:bg-black/30 lg:hidden">
             <div tabindex="0" class="fixed inset-0 focus:outline-none">
             <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div class="flex items-center justify-between">
@@ -635,7 +698,7 @@
                     </div>
                     <div class="py-6">
                     <a href="{{ url_for('auth.login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                    <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
+                    <a href="{{ url_for('agent.add_listing') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
                     </div>
                 </div>
                 </div>
@@ -645,10 +708,11 @@
         </el-dialog>
     </header>
     <!-- End of Header -->
-    </div>
     <!-- End of Header/Nav and Hero Section -->
     
+    <main class="pt-[var(--navbar-height)]">
     {% block body %}{% endblock %}
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -672,7 +736,7 @@
                 <div class="footer-section">
                     <h3>For Agents</h3>
                     <ul>
-                        <li><a href="#">Post a Property</a></li>
+                        <li><a href="{{ url_for('agent.add_listing') }}">Post a Property</a></li>
                         <li><a href="#">Pricing</a></li>
                         <li><a href="#">Featured Listings</a></li>
                         <li><a href="{{ url_for('auth.login') }}">Agent Login</a></li>

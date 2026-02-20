@@ -1,105 +1,164 @@
-     const toggleButtons = document.querySelectorAll('.toggle-btn');
-        const priceElements = document.querySelectorAll('.price[data-monthly]');
-        const periodElements = document.querySelectorAll('.price-period[data-monthly]');
+// ============================================================================
+// Pricing Toggle (Monthly / Annually)
+// ============================================================================
+function initPricingToggle() {
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const priceElements = document.querySelectorAll('[data-monthly].price');
+    const periodElements = document.querySelectorAll('[data-monthly].price-period');
 
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                toggleButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.classList.add('inactive');
-                });
+    if (!toggleButtons.length) return;
 
-                // Add active class to clicked button
-                button.classList.add('active');
-                button.classList.remove('inactive');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Reset all buttons
+            toggleButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            });
 
-                // Get the billing type
-                const billingType = button.getAttribute('data-billing');
+            // Activate clicked
+            button.classList.add('active');
+            button.classList.remove('inactive');
 
-                // Update prices
-                priceElements.forEach(priceEl => {
-                    const monthlyPrice = priceEl.getAttribute('data-monthly');
-                    const annuallyPrice = priceEl.getAttribute('data-annually');
-                    
-                    if (billingType === 'monthly') {
-                        priceEl.textContent = 'UGX ' + monthlyPrice;
-                    } else {
-                        priceEl.textContent = 'UGX ' + annuallyPrice;
-                    }
-                });
+            const billingType = button.dataset.billing;
 
-                // Update periods
-                periodElements.forEach(periodEl => {
-                    const monthlyPeriod = periodEl.getAttribute('data-monthly');
-                    const annuallyPeriod = periodEl.getAttribute('data-annually');
-                    
-                    if (billingType === 'monthly') {
-                        periodEl.textContent = monthlyPeriod;
-                    } else {
-                        periodEl.textContent = annuallyPeriod;
-                    }
-                });
+            // Update prices
+            priceElements.forEach(el => {
+                const value = billingType === 'monthly'
+                    ? el.dataset.monthly
+                    : el.dataset.annually;
+                el.textContent = value ? `UGX ${value}` : 'UGX 0';
+            });
+
+            // Update periods
+            periodElements.forEach(el => {
+                const period = billingType === 'monthly'
+                    ? el.dataset.monthly
+                    : el.dataset.annually;
+                el.textContent = period || '/month';
             });
         });
+    });
 
+    // Optional: trigger default (monthly)
+    const defaultBtn = document.querySelector('.toggle-btn[data-billing="monthly"]');
+    if (defaultBtn) defaultBtn.click();
+}
 
-// for the search section
-// Dropdown functionality
-function initializeDropdowns() {
+// ============================================================================
+// Custom Dropdowns (Location, Price, Property Type)
+// ============================================================================
+function initDropdowns() {
     const dropdowns = ['location', 'price', 'property'];
-    
-    dropdowns.forEach(dropdownName => {
-        const toggle = document.querySelector(`[data-dropdown="${dropdownName}"]`);
-        const menu = document.getElementById(`${dropdownName}Menu`);
-        const options = menu.querySelectorAll('.dropdown-option');
-        
+
+    dropdowns.forEach(name => {
+        const toggle = document.querySelector(`[data-dropdown="${name}"]`);
+        const menu = document.getElementById(`${name}Menu`);
         if (!toggle || !menu) return;
-        
-        // Toggle menu on button click
-        toggle.addEventListener('click', (e) => {
+
+        const options = menu.querySelectorAll('.dropdown-option');
+
+        // Toggle menu
+        toggle.addEventListener('click', e => {
             e.stopPropagation();
-            
-            // Close other dropdowns
-            document.querySelectorAll('.dropdown-menu').forEach(m => {
+
+            // Close others
+            document.querySelectorAll('.dropdown-menu.active').forEach(m => {
                 if (m !== menu) {
                     m.classList.remove('active');
                     m.previousElementSibling?.classList.remove('active');
                 }
             });
-            
+
             menu.classList.toggle('active');
             toggle.classList.toggle('active');
         });
-        
-        // Handle option selection
+
+        // Select option
         options.forEach(option => {
             option.addEventListener('click', () => {
-                // Remove selected from all options
                 options.forEach(o => o.classList.remove('selected'));
-                // Add selected to clicked option
                 option.classList.add('selected');
-                // Update button text
-                toggle.querySelector('span').textContent = option.querySelector('span').textContent;
-                // Close menu
+
+                // Update visible text
+                toggle.querySelector('span').textContent = option.querySelector('span')?.textContent || 'Select';
+
+                // Optional: store real value somewhere (for form submission)
+                // toggle.dataset.value = option.dataset.value;
+
                 menu.classList.remove('active');
                 toggle.classList.remove('active');
             });
         });
     });
-    
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
+
+    // Close all dropdowns on outside click
+    document.addEventListener('click', e => {
         if (!e.target.closest('.search-dropdown')) {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                menu.classList.remove('active');
-                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                    toggle.classList.remove('active');
-                });
-            });
+            document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('active'));
+            document.querySelectorAll('.dropdown-toggle').forEach(t => t.classList.remove('active'));
         }
     });
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initializeDropdowns);
+// ============================================================================
+// Navbar Scroll Effect
+// ============================================================================
+function initNavbarScroll() {
+    const header = document.getElementById('main-header');
+    if (!header) return;
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const onScroll = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const current = window.scrollY;
+
+                if (current > 60) {
+                    header.classList.add('shadow-md', 'py-1');
+                    header.classList.remove('shadow-sm', 'py-0');
+                } else {
+                    header.classList.remove('shadow-md', 'py-1');
+                    header.classList.add('shadow-sm', 'py-0');
+                }
+
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// ============================================================================
+// Mobile Menu (open + close)
+// ============================================================================
+function initMobileMenu() {
+    const openBtn = document.getElementById('mobile-menu-open');
+    const dialog = document.getElementById('mobile-menu');
+
+    if (!openBtn || !dialog) return;
+
+    openBtn.addEventListener('click', () => {
+        dialog.showModal();
+    });
+
+    // Close on backdrop click or Escape (native dialog behavior)
+    // If you have a close button inside dialog, add:
+    dialog.querySelector('[command="close"], [data-close], button[aria-label*="close"]')?.addEventListener('click', () => {
+        dialog.close();
+    });
+}
+
+// ============================================================================
+// Initialize everything when DOM is ready
+// ============================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    initPricingToggle();
+    initDropdowns();
+    initNavbarScroll();
+    initMobileMenu();
+});
