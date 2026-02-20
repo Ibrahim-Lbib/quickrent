@@ -4,13 +4,13 @@ from flask_login import login_required, current_user
 
 from app.services import listing_service
 
-agent_bp = Blueprint("agent", __name__, url_prefix="agent")
+agent_bp = Blueprint("agent", __name__, url_prefix="/agent")
 
 
 @agent_bp.route("/dashboard")
 @login_required
 def dashboard():
-    listings = listing_service.get_listings_by_user(current_user.id)
+    listings = listing_service.get_agent_listings(current_user.id)
     return render_template(
         "agent/dashboard.html", 
         listings=listings,
