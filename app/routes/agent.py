@@ -68,3 +68,7 @@ def delete_listing(listing_id):
     listing_service.delete_listing(listing)
     flash("Listing deleted.", "success")
     return redirect(url_for("agent.dashboard"))
+
+@agent_bp.route('/subscription')
+def subscription():
+    return render_template('agent/subscriptions.html')
