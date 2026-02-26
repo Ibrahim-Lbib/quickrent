@@ -58,7 +58,7 @@ No complex features. Just value.
 ## 🏗 Tech Stack
 - Backend: Python (Flask)
 - Frontend: HTML, CSS, JavaScript
-- Database: SQLite (MVP) → PostgreSQL later
+- Database: PostgreSQL (Supabase)
 - Auth: Session-based
 - Hosting: TBD
 
@@ -75,6 +75,7 @@ quickrent/
 │ ├── services/
 │ ├── templates/
 │ └── static/
+├── migrations/
 ├── venv/
 ├── .env
 ├── requirements.txt
