@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% block head %}{% endblock %}
+{% block body %}
+
+<div class="bg-white">
+
+    <!-- Page Header -->
+    <div class="bg-gray-950 px-6 sm:px-10 pt-6 pb-20">
+        <div class="max-w-7xl mx-auto text-center pt-16">
+            <p class="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-4">Pricing</p>
+            <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-5">
+                Only pay when you're ready to get leads
+            </h1>
+            <p class="text-sm text-gray-400 max-w-xl mx-auto mb-10">
+                Start free. Upgrade when you want more visibility, more listings, and more renters contacting you.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="inline-flex items-center bg-white/10 rounded-lg p-1 gap-1" id="billing-toggle">
+                <button
+                    onclick="setBilling('monthly')"
+                    id="btn-monthly"
+                    class="px-5 py-2 text-sm font-semibold rounded-md transition bg-white text-gray-900">
+                    Monthly
+                </button>
+                <button
+                    onclick="setBilling('annually')"
+                    id="btn-annually"
+                    class="px-5 py-2 text-sm font-semibold rounded-md transition text-gray-300 hover:text-white">
+                    Annually
+                    <span class="ml-1.5 text-xs font-medium text-emerald-400">Save 20%</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Cards — overlap the dark header -->
+    <div class="px-6 sm:px-10 -mt-10 pb-24">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Free Plan -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col">
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-gray-900 mb-1">Free Plan</h3>
+                    <p class="text-sm text-gray-500">The essentials to get started listing your property.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-gray-950 monthly-price">UGX 0</span>
+                    <span class="text-4xl font-extrabold text-gray-950 annually-price hidden">UGX 0</span>
+                    <span class="text-sm text-gray-400 ml-1 monthly-period">/month</span>
+                    <span class="text-sm text-gray-400 ml-1 annually-period hidden">/year</span>
+                </div>
+                <a href="{{ url_for('auth.register') }}"
+                   class="w-full text-center py-2.5 text-sm font-semibold text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition mb-8">
+                    Get started free
+                </a>
+                <ul class="space-y-3 flex-1">
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        1 active listing
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Basic visibility in search results
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        WhatsApp contact button
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Manage your listing anytime
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Pro Plan — highlighted -->
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl p-8 shadow-xl flex flex-col relative">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span class="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Most popular</span>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-white mb-1">Pro Plan</h3>
+                    <p class="text-sm text-gray-400">A plan that scales with your growing business.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-white monthly-price">UGX 50K</span>
+                    <span class="text-4xl font-extrabold text-white annually-price hidden">UGX 500K</span>
+                    <span class="text-sm text-gray-400 ml-1 monthly-period">/month</span>
+                    <span class="text-sm text-gray-400 ml-1 annually-period hidden">/year</span>
+                </div>
+                <a href="{{ url_for('auth.register') }}"
+                   class="w-full text-center py-2.5 text-sm font-semibold text-gray-900 bg-white rounded-lg hover:bg-gray-100 transition mb-8">
+                    Buy plan
+                </a>
+                <ul class="space-y-3 flex-1">
+                    <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Up to 10 active listings
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Featured placement in category pages
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Higher visibility in search
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Unlimited photos per listing
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Direct WhatsApp leads
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Agency Plan -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm flex flex-col">
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-gray-900 mb-1">Agency Plan</h3>
+                    <p class="text-sm text-gray-500">Dedicated support and infrastructure for your team.</p>
+                </div>
+                <div class="mb-8">
+                    <span class="text-4xl font-extrabold text-gray-950 monthly-price">UGX 120K</span>
+                    <span class="text-4xl font-extrabold text-gray-950 annually-price hidden">UGX 1.2M</span>
+                    <span class="text-sm text-gray-400 ml-1 monthly-period">/month</span>
+                    <span class="text-sm text-gray-400 ml-1 annually-period hidden">/year</span>
+                </div>
+                <a href="#"
+                   class="w-full text-center py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition mb-8">
+                    Contact sales
+                </a>
+                <ul class="space-y-3 flex-1">
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Unlimited listings
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Homepage featured slots
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Priority ranking in all searches
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Verified agency badge
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Dedicated support
+                    </li>
+                    <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        Early access to new features
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Feature Comparison Table -->
+    <div class="px-6 sm:px-10 pb-24 bg-gray-50">
+        <div class="max-w-5xl mx-auto pt-20">
+            <h2 class="text-2xl font-bold text-gray-900 mb-10 text-center">Compare plans</h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-4 pr-6 text-gray-500 font-medium w-1/2">Feature</th>
+                            <th class="text-center py-4 px-4 text-gray-900 font-bold">Free</th>
+                            <th class="text-center py-4 px-4 text-indigo-600 font-bold">Pro</th>
+                            <th class="text-center py-4 px-4 text-gray-900 font-bold">Agency</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Active listings</td>
+                            <td class="text-center py-4 px-4 text-gray-600">1</td>
+                            <td class="text-center py-4 px-4 text-gray-900 font-medium">10</td>
+                            <td class="text-center py-4 px-4 text-gray-900 font-medium">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Photos per listing</td>
+                            <td class="text-center py-4 px-4 text-gray-600">5</td>
+                            <td class="text-center py-4 px-4 text-gray-900 font-medium">Unlimited</td>
+                            <td class="text-center py-4 px-4 text-gray-900 font-medium">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">WhatsApp contact button</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Featured placement</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Homepage featured slots</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Verified agency badge</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Priority search ranking</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 pr-6 text-gray-700">Dedicated support</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4 text-gray-400">—</td>
+                            <td class="text-center py-4 px-4">
+                                <svg class="w-4 h-4 text-indigo-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="bg-white px-6 sm:px-10 py-24">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-10 text-center">Frequently asked questions</h2>
+            <div class="divide-y divide-gray-100">
+
+                <details class="group py-5">
+                    <summary class="flex justify-between items-center cursor-pointer text-sm font-semibold text-gray-900 list-none">
+                        Can I switch plans later?
+                        <svg class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <p class="mt-3 text-sm text-gray-500 leading-relaxed">Yes. You can upgrade or downgrade your plan at any time from your account dashboard. Changes take effect immediately.</p>
+                </details>
+
+                <details class="group py-5">
+                    <summary class="flex justify-between items-center cursor-pointer text-sm font-semibold text-gray-900 list-none">
+                        What payment methods do you accept?
+                        <svg class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <p class="mt-3 text-sm text-gray-500 leading-relaxed">We accept Mobile Money (MTN & Airtel), bank transfer, and card payments. All payments are processed securely.</p>
+                </details>
+
+                <details class="group py-5">
+                    <summary class="flex justify-between items-center cursor-pointer text-sm font-semibold text-gray-900 list-none">
+                        Is there a free trial for paid plans?
+                        <svg class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <p class="mt-3 text-sm text-gray-500 leading-relaxed">The Free plan lets you try the platform with no commitment. Paid plans start billing immediately but you can cancel anytime before the next cycle.</p>
+                </details>
+
+                <details class="group py-5">
+                    <summary class="flex justify-between items-center cursor-pointer text-sm font-semibold text-gray-900 list-none">
+                        What happens to my listings if I cancel?
+                        <svg class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <p class="mt-3 text-sm text-gray-500 leading-relaxed">If you cancel a paid plan, your account reverts to the Free tier. Listings beyond the free limit will be paused (not deleted) until you reactivate or reduce your active listings.</p>
+                </details>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function setBilling(type) {
+    const isAnnual = type === 'annually';
+
+    document.querySelectorAll('.monthly-price').forEach(el => el.classList.toggle('hidden', isAnnual));
+    document.querySelectorAll('.annually-price').forEach(el => el.classList.toggle('hidden', !isAnnual));
+    document.querySelectorAll('.monthly-period').forEach(el => el.classList.toggle('hidden', isAnnual));
+    document.querySelectorAll('.annually-period').forEach(el => el.classList.toggle('hidden', !isAnnual));
+
+    const btnMonthly = document.getElementById('btn-monthly');
+    const btnAnnually = document.getElementById('btn-annually');
+
+    if (isAnnual) {
+        btnAnnually.classList.add('bg-white', 'text-gray-900');
+        btnAnnually.classList.remove('text-gray-300');
+        btnMonthly.classList.remove('bg-white', 'text-gray-900');
+        btnMonthly.classList.add('text-gray-300');
+    } else {
+        btnMonthly.classList.add('bg-white', 'text-gray-900');
+        btnMonthly.classList.remove('text-gray-300');
+        btnAnnually.classList.remove('bg-white', 'text-gray-900');
+        btnAnnually.classList.add('text-gray-300');
+    }
+}
+</script>
+
+{% endblock %}

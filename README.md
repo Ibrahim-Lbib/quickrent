@@ -16,10 +16,13 @@ The goal is to make finding **single rooms, hostels, apartments, shops, and offi
 ## 📸 Screenshots
 
 ### Home Page
-![Home](app/static/images/home.png)
+![Home](app/static/images/home-2.png)
 
-### Listings
-![Listings](app/static/images/listings.png)
+### Listings Page
+![Listings](app/static/images/listings-2.png)
+
+### Listing Detail
+![Listings](app/static/images/listing_detail.png)
 
 ---
 
@@ -55,7 +58,7 @@ No complex features. Just value.
 ## 🏗 Tech Stack
 - Backend: Python (Flask)
 - Frontend: HTML, CSS, JavaScript
-- Database: SQLite (MVP) → PostgreSQL later
+- Database: PostgreSQL (Supabase)
 - Auth: Session-based
 - Hosting: TBD
 
@@ -72,6 +75,7 @@ quickrent/
 │ ├── services/
 │ ├── templates/
 │ └── static/
+├── migrations/
 ├── venv/
 ├── .env
 ├── requirements.txt
