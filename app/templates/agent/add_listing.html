@@ -3,9 +3,20 @@
 {% block title %}Add Listing - QuickRent{% endblock %}
 
 {% block body %}
-<div class="max-w-2xl mx-auto px-6 py-12 mt-16">
-  <h1 class="text-2xl font-bold text-gray-900 mb-2">Add New Listing</h1>
-  <p class="text-gray-500 mb-8">Fill in the details below. Renters will contact you directly on WhatsApp.</p>
+
+<!-- Sticky Sub-header -->
+<div class="top-16 z-40 border-b border-gray-200 bg-white">
+  <div class="max-w-2xl mx-auto flex h-14 items-center px-4">
+    <a href="/" class="p-1.5 rounded-md hover:bg-gray-100">
+      <svg class="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </a>
+    <h1 class="ml-3 text-base font-bold text-gray-800">Add New Listing</h1>
+  </div>
+</div>
+
+<main class="max-w-2xl mx-auto px-4 py-6 pb-32">
 
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}
@@ -17,63 +28,112 @@
     {% endfor %}
   {% endwith %}
 
-  <!-- FIX: enctype required for file uploads -->
-  <form method="POST" enctype="multipart/form-data" class="space-y-5 bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+  <p class="text-gray-500 text-sm mb-4">Fill in the details below. Renters will contact you directly on WhatsApp.</p>
 
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Title</label>
-      <input name="title" placeholder="e.g. Cozy Single Room – Makerere"
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+  <form id="addListingForm" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+    <!-- Image Upload -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+      <label class="block text-sm font-bold text-gray-800 mb-1">Property Photo</label>
+      <p class="text-xs text-gray-500 mb-4">JPG, PNG, WEBP or AVIF. Max recommended: 5MB.</p>
+
+      <div id="imageGrid" class="grid grid-cols-3 gap-3">
+        <label id="uploadLabel"
+               class="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-indigo-50 hover:border-indigo-300">
+          <svg class="h-7 w-7 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span class="text-xs text-gray-500 font-medium">Add Photo</span>
+          <input name="image" type="file" accept=".jpg,.jpeg,.png,.webp,.avif" class="hidden" onchange="previewImage(this)" />
+        </label>
+      </div>
     </div>
 
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Price (UGX/month)</label>
-      <input name="price" type="number" placeholder="e.g. 250000"
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
+    <!-- Listing Details -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-4">
+      <h2 class="text-sm font-bold text-gray-800">Listing Details</h2>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">Title <span class="text-red-500">*</span></label>
+        <input name="title" placeholder="e.g. Cozy Single Room – Makerere" required
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">Price (UGX/month) <span class="text-red-500">*</span></label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">UGX</span>
+          <input name="price" type="number" placeholder="e.g. 250000" required
+            class="w-full pl-14 pr-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">Property Type</label>
+        <select name="category"
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+          <option value="single_room">Single Room</option>
+          <option value="hostel">Hostel</option>
+          <option value="apartment">Apartment</option>
+          <option value="shop">Shop</option>
+          <option value="office">Office</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">Location (area in Kampala) <span class="text-red-500">*</span></label>
+        <input name="location" placeholder="e.g. Ntinda, Wandegeya, Makerere" required
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">WhatsApp Number <span class="text-red-500">*</span></label>
+        <input name="whatsapp" type="tel" placeholder="e.g. +256701234567" required
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+        <p class="text-xs text-gray-400 mt-1">Renters will contact you directly on this number.</p>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1.5">Description</label>
+        <textarea name="description" rows="4" placeholder="Describe the property – size, amenities, access to transport, etc."
+          class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"></textarea>
+      </div>
     </div>
 
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Property Type</label>
-      <select name="category" class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100">
-        <option value="single_room">Single Room</option>
-        <option value="hostel">Hostel</option>
-        <option value="apartment">Apartment</option>
-        <option value="shop">Shop</option>
-        <option value="office">Office</option>
-      </select>
-    </div>
+  </form>
+</main>
 
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Location (area in Kampala)</label>
-      <input name="location" placeholder="e.g. Ntinda, Wandegeya, Makerere"
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
-    </div>
-
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
-      <input name="whatsapp" type="tel" placeholder="e.g. +256701234567"
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" required>
-      <p class="text-xs text-gray-400 mt-1">Renters will contact you directly on this number.</p>
-    </div>
-
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-      <textarea name="description" rows="4" placeholder="Describe the property – size, amenities, access to transport, etc."
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 resize-none"></textarea>
-    </div>
-
-    <!-- FIX #5: Image upload field - actually saves the file now -->
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1">Property Photo</label>
-      <input name="image" type="file" accept=".jpg,.jpeg,.png,.webp,.avif"
-        class="w-full border border-gray-300 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-indigo-500 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-      <p class="text-xs text-gray-400 mt-1">JPG, PNG, WEBP or AVIF. Max recommended: 5MB.</p>
-    </div>
-
-    <button type="submit"
-      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg text-sm transition-colors">
+<!-- Fixed Bottom Button -->
+<div class="sticky bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-4 shadow-lg">
+  <div class="max-w-2xl mx-auto">
+    <button type="submit" form="addListingForm"
+      class="w-full py-3.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors active:scale-95">
       Post Listing
     </button>
-  </form>
+  </div>
 </div>
+
+<script>
+function previewImage(input) {
+  const files = Array.from(input.files);
+  const grid = document.getElementById('imageGrid');
+  const uploadLabel = document.getElementById('uploadLabel');
+
+  grid.querySelectorAll('.preview-img').forEach(el => el.remove());
+
+  files.slice(0, 1).forEach((file, idx) => {
+    const url = URL.createObjectURL(file);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'preview-img relative aspect-square';
+    wrapper.innerHTML = `
+      <img src="${url}" class="h-full w-full rounded-xl object-cover" />
+      <span class="absolute top-1 left-1 bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">PHOTO</span>
+    `;
+    grid.insertBefore(wrapper, uploadLabel);
+  });
+
+  uploadLabel.style.display = files.length >= 1 ? 'none' : '';
+}
+</script>
+
 {% endblock %}
