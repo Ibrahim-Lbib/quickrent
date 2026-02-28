@@ -16,7 +16,7 @@ The goal is to make finding **single rooms, hostels, apartments, shops, and offi
 ## 📸 Screenshots
 
 ### Home Page
-![Home](app/static/images/home-2.png)
+![Home](app/static/images/home-3.png)
 
 ### Listings Page
 ![Listings](app/static/images/listings-2.png)

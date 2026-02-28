@@ -230,7 +230,6 @@
         <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8 bg-white" id="nav-bar">
         
         <!-- Logo -->
-         <!--  filter: brightness(0) invert(1); -->
         <div class="flex lg:flex-1">
             <a href="{{ url_for('public.home') }}" class="-m-1.5 p-1.5">
                 <span class="sr-only">QuickRent</span>
@@ -276,7 +275,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="#" class="font-semibold text-gray-900">
+                            <a href="{{ url_for('listing.listings', category='single_rooms') }}" class="font-semibold text-gray-900">
                             Single Rooms
                             <span class="absolute inset-0"></span>
                             </a>
@@ -294,7 +293,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="#" class="font-semibold text-gray-900">
+                            <a href="{{ url_for('listing.listings', category='hostels') }}" class="font-semibold text-gray-900">
                             Hostels
                             <span class="absolute inset-0"></span>
                             </a>
@@ -312,7 +311,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="#" class="font-semibold text-gray-900">
+                            <a href="{{ url_for('listing.listings', category='apartments') }}" class="font-semibold text-gray-900">
                             Apartments
                             <span class="absolute inset-0"></span>
                             </a>
@@ -330,7 +329,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="#" class="font-semibold text-gray-900">
+                            <a href="{{ url_for('listing.listings', category='shops') }}" class="font-semibold text-gray-900">
                             Shops
                             <span class="absolute inset-0"></span>
                             </a>
@@ -348,7 +347,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="#" class="font-semibold text-gray-900">
+                            <a href="{{ url_for('listing.listings', category='offices') }}" class="font-semibold text-gray-900">
                             Offices
                             <span class="absolute inset-0"></span>
                             </a>
@@ -459,7 +458,7 @@
                 </div>
             {% else %}
                 <div class="flex items-center gap-4">
-                <a href="{{ url_for('auth.login') }}" class="text-sm font-semibold text-gray-gray-900 hover:text-indigo-600" target="_blank" style="margin-right: 10px; text-align: center;">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
+                <a href="{{ url_for('auth.login') }}" class="px-3.5 py-2.5 text-sm font-semibold text-gray-gray-900 hover:text-indigo-600 transition">Log in<!--<span aria-hidden="true" class="text-gray-900">&rarr;</span>--></a>
                 <a href="{{ url_for('agent.add_listing') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Post Property</a>
                 </div>
             {% endif %}
@@ -693,9 +692,9 @@
                 <div>
                     <h4 class="text-sm font-bold text-white mb-4">For agents</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-sm text-white hover:text-white transition">Agent dashboard</a></li>
+                        <li><a href="{{ url_for('agent.dashboard') }}" class="text-sm text-white hover:text-white transition">Agent dashboard</a></li>
                         <li><a href="{{ url_for('agent.add_listing') }}" class="text-sm text-white hover:text-white transition">Post listing</a></li>
-                        <li><a href="#pricing" class="text-sm text-white hover:text-white transition">Pricing plans</a></li>
+                        <li><a href="{{ url_for('agent.subscription') }}" class="text-sm text-white hover:text-white transition">Pricing plans</a></li>
                         <li><a href="#" class="text-sm text-white hover:text-white transition">Agent resources</a></li>
                         <li><a href="#" class="text-sm text-white hover:text-white transition">Support</a></li>
                     </ul>
