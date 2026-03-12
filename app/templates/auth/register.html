@@ -3,16 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create your account - QuickRent</title>
+    <title>Create Account — QuickRent</title>
+    <meta name="description" content="Create a QuickRent account to browse rentals or post a property as an agent.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <style>
+      .role-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      @media (max-width: 360px) {
+        .role-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .role-label {
+        border: 1px solid #E5E7EB;
+        border-radius: 10px;
+        padding: 12px;
+        cursor: pointer;
+        display: block;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .role-label:has(input:checked) {
+        border-color: #4F46E5;
+        background: #eef2ff;
+      }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" style="width: 100px; height: auto;">
+    <div style="width: 100%; border-bottom: 1px solid #E5E7EB; background: white; overflow: hidden;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;">
+            <a href="{{ url_for('public.home') }}" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
+                <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent" style="width: 92px; height: auto;">
+            </a>
+            <a href="{{ url_for('public.listings') }}" style="font-size: 14px; font-weight: 600; color: #111827; text-decoration: none;">Browse listings</a>
         </div>
+    </div>
 
+    <div class="container">
         <h1>Create your account</h1>
+
+        {% if plan_badge %}
+        <div style="
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            text-align: center;
+            max-width: 100%;
+            white-space: normal;
+            line-height: 1.4;
+            font-size: 13px;
+            font-weight: 600;
+            background: #eef2ff;
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+            box-sizing: border-box;
+        ">
+            You're signing up for the {{ plan_badge.label }} — {{ plan_badge.price }}
+        </div>
+        {% endif %}
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% for category, message in messages %}
@@ -22,6 +76,8 @@
                     border-radius: 6px;
                     font-size: 14px;
                     font-weight: 500;
+                    width: 100%;
+                    box-sizing: border-box;
                     {% if category == 'error' %}
                         background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca;
                     {% else %}
@@ -33,6 +89,19 @@
 
         <div class="form-card">
             <form method="POST" action="{{ url_for('auth.register') }}">
+                <div class="role-grid">
+                    <label class="role-label">
+                        <input type="radio" name="role" value="tenant" {% if selected_role != 'agent' %}checked{% endif %} style="margin-right: 8px;">
+                        <span style="font-weight: 700; color: #111827;">I'm looking for a place</span>
+                        <div style="font-size: 12px; color: #6B7280; margin-top: 4px;">Tenant</div>
+                    </label>
+                    <label class="role-label">
+                        <input type="radio" name="role" value="agent" {% if selected_role == 'agent' %}checked{% endif %} style="margin-right: 8px;">
+                        <span style="font-weight: 700; color: #111827;">I'm listing a property</span>
+                        <div style="font-size: 12px; color: #6B7280; margin-top: 4px;">Agent</div>
+                    </label>
+                </div>
+
                 <div class="form-group">
                     <label for="full_name">Full name</label>
                     <input type="text" name="full_name" id="full_name" placeholder="Enter your full name" required>
@@ -44,8 +113,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" name="phone" id="phone" placeholder="e.g. 0701234567" required>
+                    <label for="phone" id="phoneLabel">Phone number (optional)</label>
+                    <input type="tel" name="phone" id="phone" placeholder="+256 700 000 000">
+                    <div id="phoneHint" style="margin-top: 6px; font-size: 12px; color: #6B7280;">
+                        Phone number (optional).
+                    </div>
+                    <div id="phoneError" style="margin-top: 6px; font-size: 12px; color: #b91c1c; display: none;"></div>
                 </div>
 
                 <div class="form-group">
@@ -55,7 +128,7 @@
 
                 <div class="terms">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    <label for="terms">I agree to the <a href="{{ url_for('public.terms') }}">Terms of Service</a> and <a href="{{ url_for('public.privacy') }}">Privacy Policy</a></label>
                 </div>
 
                 <button type="submit" class="btn-signup">Create account</button>
@@ -66,5 +139,91 @@
             Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a>
         </div>
     </div>
+
+<script>
+    function getSelectedRole() {
+        const checked = document.querySelector('input[name=\"role\"]:checked');
+        return checked ? checked.value : 'tenant';
+    }
+
+    function normalizeUgPhone(raw) {
+        const cleaned = (raw || '').replace(/\\s+/g, '');
+        if (!cleaned) return '';
+        if (cleaned.startsWith('+256')) return cleaned;
+        if (cleaned.startsWith('0')) return '+256' + cleaned.slice(1);
+        return cleaned;
+    }
+
+    function isValidUgPhone(raw) {
+        const normalized = normalizeUgPhone(raw);
+        if (!normalized) return true;
+        if (!/^\\+256\\d{9}$/.test(normalized) && !/^0\\d{9}$/.test(raw.replace(/\\s+/g, ''))) return false;
+        const digits = normalized.replace(/\\D/g, '');
+        return digits.length >= 12 && digits.length <= 13;
+    }
+
+    function updatePhoneUI() {
+        const role = getSelectedRole();
+        const phone = document.getElementById('phone');
+        const label = document.getElementById('phoneLabel');
+        const hint = document.getElementById('phoneHint');
+
+        if (role === 'agent') {
+            label.textContent = 'WhatsApp number (renters will contact you on this)';
+            hint.textContent = 'Enter your WhatsApp number — renters will use this to contact you.';
+            phone.required = true;
+        } else {
+            label.textContent = 'Phone number (optional)';
+            hint.textContent = 'Phone number (optional).';
+            phone.required = false;
+        }
+    }
+
+    function showPhoneError(msg) {
+        const el = document.getElementById('phoneError');
+        if (!msg) {
+            el.style.display = 'none';
+            el.textContent = '';
+            return;
+        }
+        el.style.display = 'block';
+        el.textContent = msg;
+    }
+
+    document.querySelectorAll('input[name=\"role\"]').forEach(r => {
+        r.addEventListener('change', () => {
+            updatePhoneUI();
+            showPhoneError('');
+        });
+    });
+
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', (e) => {
+        const raw = e.target.value;
+        const stripped = raw.replace(/\\s+/g, '');
+        if (stripped.startsWith('07') || stripped.startsWith('0')) {
+            e.target.value = normalizeUgPhone(stripped);
+        }
+        showPhoneError('');
+    });
+
+    document.querySelector('form').addEventListener('submit', (e) => {
+        const role = getSelectedRole();
+        const rawPhone = phoneInput.value;
+        if (role === 'agent' && !rawPhone) {
+            showPhoneError('WhatsApp number is required for agents.');
+            e.preventDefault();
+            return;
+        }
+        if (!isValidUgPhone(rawPhone)) {
+            showPhoneError('Phone number must start with +256 or 0 and be 10–13 digits.');
+            e.preventDefault();
+            return;
+        }
+        phoneInput.value = normalizeUgPhone(rawPhone);
+    });
+
+    updatePhoneUI();
+</script>
 </body>
 </html>

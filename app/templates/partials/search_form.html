@@ -1,0 +1,85 @@
+{% macro search_form(variant="tailwind") %}
+<form action="{{ url_for('public.listings') }}" method="GET"
+      {% if variant == "inline" %}
+      style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #E5E7EB;"
+      {% else %}
+      class="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur rounded-2xl p-4 shadow-sm border border-gray-200"
+      {% endif %}>
+
+    {% if variant == "inline" %}
+        <h4 style="font-size: 14px; font-weight: 600; color: #4A4F47; margin-bottom: 12px;">Search Properties</h4>
+    {% endif %}
+
+    {% if variant == "tailwind" %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    {% endif %}
+
+        <div {% if variant == "tailwind" %}class="flex flex-col gap-2"{% endif %} style="{% if variant == 'inline' %}margin-bottom: 12px;{% endif %}">
+            <label {% if variant == "tailwind" %}class="text-sm font-semibold text-gray-700"{% else %}style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;"{% endif %}>Location</label>
+            <select name="location_id"
+                    {% if variant == "tailwind" %}
+                    class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                    {% else %}
+                    style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;"
+                    {% endif %}>
+                <option value="">All locations</option>
+                {% if locations is defined %}
+                {% for loc in locations %}
+                <option value="{{ loc.id }}">{{ loc.name }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+
+        <div {% if variant == "tailwind" %}class="flex flex-col gap-2"{% endif %} style="{% if variant == 'inline' %}margin-bottom: 12px;{% endif %}">
+            <label {% if variant == "tailwind" %}class="text-sm font-semibold text-gray-700"{% else %}style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;"{% endif %}>Property Type</label>
+            <select name="category_id"
+                    {% if variant == "tailwind" %}
+                    class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                    {% else %}
+                    style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;"
+                    {% endif %}>
+                <option value="">All types</option>
+                {% if categories is defined %}
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+
+        <div {% if variant == "tailwind" %}class="flex flex-col gap-2"{% endif %} style="{% if variant == 'inline' %}margin-bottom: 16px;{% endif %}">
+            <label {% if variant == "tailwind" %}class="text-sm font-semibold text-gray-700"{% else %}style="font-size: 13px; color: #4A4F47; display: block; margin-bottom: 4px;"{% endif %}>Max Price</label>
+            <select name="price"
+                    {% if variant == "tailwind" %}
+                    class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-white cursor-pointer transition-all hover:border-indigo-500 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                    {% else %}
+                    style="width: 100%; border: 0.2px solid #4A4F47; border-radius: 8px; padding: 10px; font-size: 14px; color: #1a2332; background: white;"
+                    {% endif %}>
+                <option value="">Any price</option>
+                <option value="200000">Under 200K</option>
+                <option value="500000">Under 500K</option>
+                <option value="1000000">Under 1M</option>
+                <option value="2000000">Under 2M</option>
+            </select>
+        </div>
+
+    {% if variant == "tailwind" %}
+        <div class="md:col-span-3">
+            <button type="submit" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
+                Search
+            </button>
+        </div>
+    </div>
+    {% else %}
+        <button type="submit" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #4F46E5; border: none; border-radius: 8px; padding: 12px; color: white; font-size: 14px; font-weight: 500; cursor: pointer;">
+            <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            Search
+        </button>
+    {% endif %}
+</form>
+{% endmacro %}
+

@@ -9,11 +9,19 @@
     </head>
 <body>
 <div class="flex min-h-screen">
+  <div class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3">
+    <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent" style="width: 90px; height: auto;">
+    <button id="sidebar-toggle" class="p-2 rounded-md text-gray-600 hover:bg-gray-100">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+      </svg>
+    </button>
+  </div>
   <!-- Sidebar -->
-  <aside class="w-60 bg-white border-r border-gray-200 flex flex-col fixed h-screen left-0 top-0">
+  <aside class="w-60 bg-white border-r border-gray-200 flex flex-col fixed h-screen left-0 top-0 z-40 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
     <!-- Logo -->
     <a href="{{ url_for('public.home') }}" class="p-0 border-b border-gray-200 block transition-colors hover:bg-gray-50">
-      <div class="w-32 h-32 rounded-lg flex items-center justify-center">
+      <div class="w-full h-16 flex items-center px-4">
         <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" style="width: 110px; height: auto;">
       </div>
     </a>
@@ -50,7 +58,7 @@
         Add Listing
       </a>
 
-      <a href="#pricing" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
+      <a href="{{ url_for('agent.subscription') }}" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
         <span class="mr-3 text-lg w-5 text-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
@@ -59,7 +67,7 @@
         Subscription
       </a>
 
-      <a href="#" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
+      <a href="{{ url_for('auth.logout') }}" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
         <span class="mr-3 text-lg w-5 text-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
@@ -74,27 +82,39 @@
         Subscription Plans
       </div>
 
-      <a href="#" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
+      <a href="{{ url_for('agent.subscription') }}" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
         <div class="w-6 h-6 rounded bg-gray-200 flex items-center justify-center text-xs font-semibold text-gray-600 mr-3 flex-shrink-0">
           F
         </div>
         Free Plan
       </a>
 
-      <a href="#" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
+      <a href="{{ url_for('agent.subscription') }}" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
         <div class="w-6 h-6 rounded bg-gray-200 flex items-center justify-center text-xs font-semibold text-gray-600 mr-3 flex-shrink-0">
           P
         </div>
         Pro Plan
       </a>
 
-      <a href="#" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
+      <a href="{{ url_for('agent.subscription') }}" class="flex items-center px-4 py-2 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm transition-all duration-200">
         <div class="w-6 h-6 rounded bg-gray-200 flex items-center justify-center text-xs font-semibold text-gray-600 mr-3 flex-shrink-0">
           A
         </div>
         Agency Plan
       </a>
     </nav>
+
+    <div class="px-2 pb-2">
+      <a href="{{ url_for('auth.logout') }}" 
+         class="flex items-center px-4 py-2.5 mx-0 my-0.5 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-md text-sm font-medium transition-all duration-200">
+        <span class="mr-3 w-5 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+          </svg>
+        </span>
+        Log out
+      </a>
+    </div>
 
     <!-- User Profile -->
     <div class="p-3 border-t border-gray-200 flex items-center gap-3">
@@ -110,8 +130,10 @@
     </div>
   </aside>
 
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/30 z-30 hidden lg:hidden"></div>
+
   <!-- Main Content Area -->
-  <main class="flex-1 ml-60 p-8">
+  <main class="flex-1 lg:ml-60 p-4 sm:p-6 lg:p-8 pt-16 lg:pt-8">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="mb-6">
@@ -123,24 +145,95 @@
         </div>
       {% endif %}
     {% endwith %}
-    <h1 class="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
-    <p class="text-gray-600 mb-6">Your rental listings overview</p>
+    <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">Dashboard</h1>
+    <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Your rental listings overview</p>
     
     <!-- Your main content goes here -->
-    <div class="bg-white p-6 rounded-lg border border-gray-200">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-semibold">
+    <div class="bg-white p-4 sm:p-6 rounded-lg border border-gray-200">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6 sm:mb-8">
+            <h1 class="text-lg sm:text-2xl font-semibold">
                 Welcome, {{ current_user.full_name }}
             </h1>
 
             <a href="{{ url_for('agent.add_listing') }}"
-            class="bg-indigo-600 text-white px-4 py-2 rounded-md">
+            class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-semibold w-full sm:w-auto text-center">
                 + Add New Property
             </a>
         </div>
-      <p>Main content area - integrate with your existing homepage content</p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-5">
+        <p class="text-xs text-gray-500 font-medium mb-1">Active Listings</p>
+        <p class="text-2xl sm:text-3xl font-bold text-gray-900">{{ listings|length if listings else 0 }}</p>
+        <p class="text-xs text-gray-400 mt-1">Published properties</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-5">
+        <p class="text-xs text-gray-500 font-medium mb-1">Plan</p>
+        <p class="text-lg sm:text-xl font-bold text-indigo-600 mt-1">Free</p>
+        <a href="{{ url_for('agent.subscription') }}" class="text-xs text-indigo-500 hover:underline mt-1 block">Upgrade →</a>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-5">
+        <p class="text-xs text-gray-500 font-medium mb-1">WhatsApp Leads</p>
+        <p class="text-2xl sm:text-3xl font-bold text-gray-900">—</p>
+        <p class="text-xs text-gray-400 mt-1">Coming soon</p>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-5">
+        <p class="text-xs text-gray-500 font-medium mb-1">Profile</p>
+        <p class="text-sm font-semibold text-gray-700 mt-1 truncate">{{ current_user.full_name }}</p>
+        <p class="text-xs text-gray-400 mt-0.5 truncate">{{ current_user.email }}</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-6 bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+      <h2 class="text-sm font-semibold text-gray-700 mb-4">Quick actions</h2>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="{{ url_for('agent.add_listing') }}"
+           class="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+          </svg>
+          Add New Listing
+        </a>
+        <a href="{{ url_for('public.listings') }}"
+           class="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 0 1 6 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+          Browse All Listings
+        </a>
+        <a href="{{ url_for('agent.subscription') }}"
+           class="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+          Upgrade Plan
+        </a>
+      </div>
     </div>
   </main>
 </div>
+<script>
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  function openSidebar() {
+    sidebar.classList.remove('-translate-x-full');
+    backdrop.classList.remove('hidden');
+  }
+  function closeSidebar() {
+    sidebar.classList.add('-translate-x-full');
+    backdrop.classList.add('hidden');
+  }
+
+  sidebarToggle?.addEventListener('click', openSidebar);
+  backdrop?.addEventListener('click', closeSidebar);
+</script>
 </body>
 </html>

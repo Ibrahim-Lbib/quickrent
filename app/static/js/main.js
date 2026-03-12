@@ -102,38 +102,6 @@ function initDropdowns() {
 }
 
 // ============================================================================
-// Navbar Scroll Effect
-// ============================================================================
-function initNavbarScroll() {
-    const header = document.getElementById('main-header');
-    if (!header) return;
-
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    const onScroll = () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const current = window.scrollY;
-
-                if (current > 60) {
-                    header.classList.add('shadow-md', 'py-1');
-                    header.classList.remove('shadow-sm', 'py-0');
-                } else {
-                    header.classList.remove('shadow-md', 'py-1');
-                    header.classList.add('shadow-sm', 'py-0');
-                }
-
-                ticking = false;
-            });
-            ticking = true;
-        }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-}
-
-// ============================================================================
 // Mobile Menu (open + close)
 // ============================================================================
 function initMobileMenu() {

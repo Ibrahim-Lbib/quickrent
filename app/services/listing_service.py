@@ -1,3 +1,5 @@
+import json
+
 from app.extensions import db
 from app.models.listing import Listing
 from app.services.whatsapp_service import normalize_phone, is_valid_phone
@@ -30,6 +32,39 @@ def create_listing(form_data: dict, image_file, user_id: int) -> Listing:
     except (ValueError, AttributeError):
         raise ValueError("Price must be a positive number.")
 
+    def _parse_non_negative_int(value, field_label: str) -> int:
+        if value is None or str(value).strip() == "":
+            return 0
+        try:
+            parsed = int(str(value).strip())
+        except ValueError as exc:
+            raise ValueError(f"{field_label} must be a whole number.") from exc
+        if parsed < 0:
+            raise ValueError(f"{field_label} cannot be negative.")
+        return parsed
+
+    bedrooms = _parse_non_negative_int(
+        form_data.get("bedrooms", form_data.get("bedroom")),
+        "Bedrooms",
+    )
+    bathrooms = _parse_non_negative_int(
+        form_data.get("bathrooms", form_data.get("bathroom")),
+        "Bathrooms",
+    )
+
+    nearby_landmarks = None
+    raw_landmarks = form_data.get("nearby_landmarks")
+    if raw_landmarks:
+        try:
+            nearby_landmarks = json.loads(raw_landmarks)
+        except json.JSONDecodeError as exc:
+            raise ValueError("Nearby landmarks must be valid JSON.") from exc
+        if not isinstance(nearby_landmarks, list):
+            raise ValueError("Nearby landmarks must be a JSON list.")
+        for item in nearby_landmarks:
+            if not isinstance(item, dict) or not str(item.get("name", "")).strip():
+                raise ValueError("Each nearby landmark must be an object with a non-empty 'name'.")
+
     image_filename = storage_service.save_image(image_file) if image_file and image_file.filename else None
 
     listing = Listing(
@@ -38,6 +73,14 @@ def create_listing(form_data: dict, image_file, user_id: int) -> Listing:
         price=price,
         category_id=int(category_id),
         location_id=int(location_id),
+        bedrooms=bedrooms,
+        bathrooms=bathrooms,
+        nearby_landmarks=nearby_landmarks,
+        has_electricity=bool(form_data.get("has_electricity")),
+        has_water=bool(form_data.get("has_water")),
+        has_wifi=bool(form_data.get("has_wifi")),
+        has_security=bool(form_data.get("has_security")),
+        has_parking=bool(form_data.get("has_parking")),
         whatsapp=normalize_phone(whatsapp),
         image=image_filename,
         user_id=user_id,
@@ -72,6 +115,40 @@ def update_listing(listing: Listing, form_data: dict, image_file) -> Listing:
     listing.category_id = int(category_id)
     listing.location_id = int(location_id)
     listing.whatsapp = normalize_phone(whatsapp)
+
+    # Bedrooms/bathrooms are optional on edit to avoid overwriting if the UI doesn't provide them.
+    if "bedrooms" in form_data or "bedroom" in form_data:
+        listing.bedrooms = int((form_data.get("bedrooms") or form_data.get("bedroom") or 0))
+    if "bathrooms" in form_data or "bathroom" in form_data:
+        listing.bathrooms = int((form_data.get("bathrooms") or form_data.get("bathroom") or 0))
+
+    if "nearby_landmarks" in form_data:
+        raw_landmarks = form_data.get("nearby_landmarks") or ""
+        if raw_landmarks.strip() == "":
+            listing.nearby_landmarks = None
+        else:
+            try:
+                parsed_landmarks = json.loads(raw_landmarks)
+            except json.JSONDecodeError as exc:
+                raise ValueError("Nearby landmarks must be valid JSON.") from exc
+            if not isinstance(parsed_landmarks, list):
+                raise ValueError("Nearby landmarks must be a JSON list.")
+            for item in parsed_landmarks:
+                if not isinstance(item, dict) or not str(item.get("name", "")).strip():
+                    raise ValueError("Each nearby landmark must be an object with a non-empty 'name'.")
+            listing.nearby_landmarks = parsed_landmarks
+
+    # Utilities default to False if keys are present as unchecked checkboxes.
+    utility_keys = [
+        "has_electricity",
+        "has_water",
+        "has_wifi",
+        "has_security",
+        "has_parking",
+    ]
+    for key in utility_keys:
+        if key in form_data:
+            setattr(listing, key, bool(form_data.get(key)))
 
     if image_file and image_file.filename:
         old_image = listing.image
