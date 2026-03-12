@@ -2,8 +2,6 @@ __pycache__/
 
 # Environment variables
 .env
-.env.*
-*.env
 
 # Virtual environment
 venv/

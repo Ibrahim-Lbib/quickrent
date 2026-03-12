@@ -12,11 +12,11 @@
   <!-- Sidebar -->
   <aside class="w-60 bg-white border-r border-gray-200 flex flex-col fixed h-screen left-0 top-0">
     <!-- Logo -->
-    <div class="p-0 border-b border-gray-200" onclick="window.location.href='{{ url_for('public.home') }}'" style="cursor: pointer;">
+    <a href="{{ url_for('public.home') }}" class="p-0 border-b border-gray-200 block transition-colors hover:bg-gray-50">
       <div class="w-32 h-32 rounded-lg flex items-center justify-center">
         <img src="{{ url_for('static', filename='images/quickrent_logo-1.png') }}" alt="QuickRent Logo" style="width: 110px; height: auto;">
       </div>
-    </div>
+    </a>
 
     <!-- Navigation -->
     <nav class="flex-1 py-4 overflow-y-auto">
@@ -41,7 +41,7 @@
         <span class="ml-auto bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-0.5 rounded-full">12</span>
       </a>
 
-      <a href="{{ url_for('listing.add_listing') }}" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
+      <a href="{{ url_for('agent.add_listing') }}" class="flex items-center px-4 py-2.5 mx-2 my-0.5 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md text-sm font-medium transition-all duration-200">
         <span class="mr-3 text-lg w-5 text-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -112,6 +112,17 @@
 
   <!-- Main Content Area -->
   <main class="flex-1 ml-60 p-8">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-6">
+          {% for category, message in messages %}
+            <div class="p-4 mb-4 rounded-md {% if category == 'error' %}bg-red-50 text-red-700 border border-red-200{% else %}bg-green-50 text-green-700 border border-green-200{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     <h1 class="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
     <p class="text-gray-600 mb-6">Your rental listings overview</p>
     
@@ -122,7 +133,7 @@
                 Welcome, {{ current_user.full_name }}
             </h1>
 
-            <a href="{{ url_for('listing.add_listing') }}"
+            <a href="{{ url_for('agent.add_listing') }}"
             class="bg-indigo-600 text-white px-4 py-2 rounded-md">
                 + Add New Property
             </a>

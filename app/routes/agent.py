@@ -2,10 +2,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 
+from app.models.category import Category
+from app.models.location import Location
 from app.services import listing_service
 
 agent_bp = Blueprint("agent", __name__, url_prefix="/agent")
-
 
 @agent_bp.route("/dashboard")
 @login_required
@@ -32,7 +33,9 @@ def add_listing():
         except Exception as e:
             flash(str(e), "error")
     
-    return render_template("agent/add_listing.html") 
+    categories = Category.query.all()
+    locations = Location.query.all()
+    return render_template("agent/add_listing.html", categories=categories, locations=locations) 
 
 @agent_bp.route("/listing/<int:listing_id>/edit", methods=["GET", "POST"])
 @login_required
@@ -44,7 +47,7 @@ def edit_listing(listing_id):
     
     if request.method == "POST":
         try:
-            updated_listing = listing_service.update_listing(
+            listing_service.update_listing(
                 listing=listing,
                 form_data=request.form,
                 image_file=request.files.get("image")
@@ -54,7 +57,9 @@ def edit_listing(listing_id):
         except Exception as e:
             flash(str(e), "error")
     
-    return render_template("agent/edit_listing.html", listing=listing)
+    categories = Category.query.all()
+    locations = Location.query.all()
+    return render_template("agent/edit_listing.html", listing=listing, categories=categories, locations=locations)
 
 @agent_bp.route("/listings/<int:listing_id>/delete", methods=["POST"])
 @login_required

@@ -1,16 +1,71 @@
 {% extends "base.html" %}
 {% block head %}
+<style>
+    /* ── HERO TEXT REVEAL ────────────────────────────────────────────────── */
+    .hero-line-wrap {
+        display: block;
+        overflow: hidden;
+        line-height: 1.15;
+    }
+    .hero-line {
+        display: block;
+        /* starts invisible, GSAP animates in */
+        transform: translateY(110%);
+        opacity: 0;
+    }
+
+    /* ── HERO PARALLAX IMAGE ─────────────────────────────────────────────── */
+    .hero-parallax-wrap {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+    .hero-parallax-img {
+        width: 100%;
+        height: 130%; /* taller than container to allow downward shift */
+        object-fit: cover;
+        object-position: center;
+        will-change: transform;
+        /* start shifted up so parallax movement stays in bounds */
+        transform: translateY(-15%);
+    }
+
+    /* ── MARQUEE STRIP ───────────────────────────────────────────────────── */
+    .marquee-overflow { overflow: hidden; width: 100%; }
+    .marquee-track {
+        display: flex;
+        gap: 56px;
+        white-space: nowrap;
+        will-change: transform;
+        width: max-content;
+    }
+    .marquee-item {
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        font-weight: 600;
+        color: rgba(255,255,255,0.55);
+        flex-shrink: 0;
+        letter-spacing: -0.02em;
+    }
+    .marquee-item em {
+        font-style: italic;
+        color: rgba(255,255,255,0.9);
+    }
+    .marquee-section {
+        background: #4F46E5;
+        padding: 40px 0;
+        overflow: hidden;
+    }
+</style>
 {% endblock %}
 {% block body %}
   <!-- Header/Navbar Section -->
   <div class="bg-white">
     <!-- Hero Section -->
-        <!--<div class="relative isolate min-h-screen px-20 pb-10 max-w-7xl mx-auto pt-14 lg:px-8 flex items-center">-->
-        <div class="px-6 sm:px-10 pb-20 max-w-7xl pt-6 mx-auto">
+        <div class="px-6.4 sm:px-10 py-24 pb-20 max-w-7xl pt-8 mx-auto">
 
             <div class="relative rounded-2xl overflow-hidden" style="min-height: 520px;">
             <!-- Background Image -->
-            <div class="absolute inset-0">
+            <div class="hero-parallax-wrap absolute inset-0">
                 <img src="{{ url_for('static', filename='images/hero-background_02.webp') }}" 
                     alt="Kampala rentals" 
                     class="w-full h-full object-cover object-center">
@@ -20,29 +75,13 @@
 
             <!-- Hero Content -->
             <div class="relative z-10 flex flex-col items-center justify-center text-center h-full px-6 py-24" >
-                <!-- Badge -->
-                 <!--
-                <div class="hidden sm:mb-2 sm:flex sm:justify-center">
-                    <div class="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                        Built specifically for Kampala renters. 
-                        <a href="#" class="font-semibold text-indigo-600">
-                            <span aria-hidden="true" class="absolute inset-0"></span>
-                            Post Your Property 
-                            <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
-                </div>-->
-
                 <!-- Main Text -->
-                 <div class="text-center mb-12">
+                <div class="text-center mb-12">
                 <div class="relative z-10 flex flex-col items-center justify-center text-center h-full px-6 py-4">
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight text-balance max-w-2xl mb-6">
-                        <!--Find a Rental in Kampala in Minutes-->
                         Find your next place to live
                     </h1>
                     <p class="text-sm sm:text-base text-white/75 max-w-xl mb-10 leading-relaxed">
-                        <!--Browse verified single rooms, apartments, hostels, shops, and offices. 
-                        Contact agents instantly on WhatsApp.-->
                         Search through hundreds of verified listings across Kampala. Browse rooms, apartments, and commercial spaces from trusted agents.
                     </p>
 
@@ -52,7 +91,7 @@
                         class="rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 transition">
                             Browse Rentals
                         </a>
-                        <a href="{{ url_for('listing.add_listing')}}" class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 border border-gray-200 shadow-sm hover:bg-gray-50 transition">
+                        <a href="{{ url_for('agent.add_listing')}}" class="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 border border-gray-200 shadow-sm hover:bg-gray-50 transition">
                             Post Your Property
                         </a>
                     </div>
@@ -80,16 +119,23 @@
         </div>
         
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            <!-- Single Room Card -->
-            <a href="{{ url_for('public.listings') }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
+            {% for cat in categories[:4] %}
+            <a href="{{ url_for('public.listings', category_id=cat.id) }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
                 <div class="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ url_for('static', filename='images/listings/single-room-01.avif') }}" 
-                        alt="Single Room"
-                        class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+                    {% set img_map = {
+                        'Single Room': 'single-room-01.avif',
+                        'Hostel': 'hostel-01.webp',
+                        'Apartment': 'apartment-01.jpg',
+                        'Shop': 'shop-01.jpg',
+                        'Office': 'office-01.webp'
+                    } %}
+                    <img src="{{ url_for('static', filename='images/listings/' + img_map.get(cat.name, 'apartment-01.jpg')) }}" 
+                        alt="{{ cat.name }}"
+                        class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105">
                 </div>
                 <div class="p-6 relative">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">Single Rooms</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Affordable and comfortable single rooms</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">{{ cat.name }}s</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Explore available {{ cat.name|lower }}s across Kampala</p>
                     <div class="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all duration-300 bg-white group-hover:border-indigo-600 group-hover:bg-indigo-600">
                         <svg class="w-4 h-4 text-gray-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -97,78 +143,7 @@
                     </div>
                 </div>
             </a>
-
-            <!-- Hostel Card -->
-            <a href="{{ url_for('public.listings') }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
-                <div class="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ url_for('static', filename='images/listings/hostel-01.webp') }}" 
-                        alt="Hostel"
-                        class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105">
-                </div>
-                <div class="p-6 relative">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">Hostels</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Budget-friendly hostel accommodations</p><br>
-                    <div class="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all duration-300 bg-white group-hover:border-indigo-600 group-hover:bg-indigo-600">
-                        <svg class="w-4 h-4 text-gray-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Apartment Card -->
-            <a href="{{ url_for('public.listings') }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
-                <div class="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ url_for('static', filename='images/listings/apartment-01.jpg') }}" 
-                        alt="Apartment"
-                        class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105">
-                </div>
-                <div class="p-6 relative">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">Apartments</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Modern apartments for families and professionals</p>
-                    <div class="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all duration-300 bg-white group-hover:border-indigo-600 group-hover:bg-indigo-600">
-                        <svg class="w-4 h-4 text-gray-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Shop Card -->
-            <a href="{{ url_for('public.listings') }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
-                <div class="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ url_for('static', filename='images/listings/shop-01.jpg') }}" 
-                        alt="Shop"
-                        class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105">
-                </div>
-                <div class="p-6 relative">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">Shops</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Prime commercial spaces for your business</p>
-                    <div class="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all duration-300 bg-white group-hover:border-indigo-600 group-hover:bg-indigo-600">
-                        <svg class="w-4 h-4 text-gray-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Office Card --><!--
-            <a href="{{ url_for('public.listings') }}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gray-300 hover:-translate-y-1 hover:shadow-lg relative block no-underline shadow-sm max-w-sm mx-auto w-full group">
-                <div class="relative w-full aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ url_for('static', filename='images/listings/office-01.webp') }}" 
-                        alt="Office"
-                        class="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105">
-                </div>
-                <div class="p-6 relative">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2 leading-tight h-14 flex items-center">Offices</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-4">Professional office spaces for your team</p>
-                    <div class="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center transition-all duration-300 bg-white group-hover:border-indigo-600 group-hover:bg-indigo-600">
-                        <svg class="w-4 h-4 text-gray-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </div>
-            </a>-->
+            {% endfor %}
         </div>
     </div>
 
@@ -686,85 +661,63 @@
         </div>
     </div>
     <!-- End of FAQ Section -->
-
-    <!--pricing section-->
-    <!--
-    <div class="container" id="pricing" style="margin-top: 120px; padding: 20px;">
-        <div class="header">
-            <h1>Only Pay When You’re Ready to Get Leads</h1>
-            <p>Start free. Upgrade when you want more visibility, more listings, and more renters contacting you.</p>
-        </div>
-
-        <div class="toggle-container">
-            <button class="toggle-btn active" data-billing="monthly">Monthly</button>
-            <button class="toggle-btn inactive" data-billing="annually">Annually</button>
-        </div>
-
-        <div class="pricing-grid">-->
-            <!-- Freelancer Plan -->
-             <!--
-            <div class="pricing-card">
-                <h3 class="card-title">Free Plan</h3>
-                <p class="card-description">The essentials to provide your best work for clients.</p>
-                <div class="price" data-monthly="0" data-annually="0">UGX 0</div>
-                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
-                <button class="cta-button">Buy plan</button>
-                <ul class="features-list">
-                    <li><span class="checkmark"></span>1 active listing</li>
-                    <li><span class="checkmark"></span>Basic visibility in search results</li>
-                    <li><span class="checkmark"></span>WhatsApp contact button</li>
-                    <li><span class="checkmark"></span>Manage your listing anytime</li>
-                </ul>
-            </div>-->
-
-            <!-- Startup Plan -->
-             <!--
-            <div class="pricing-card">
-                <h3 class="card-title">Pro Plan</h3>
-                <p class="card-description">A plan that scales with your rapidly growing business.</p>
-                <div class="price" data-monthly="50k" data-annually="500K">UGX 50K</div>
-                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
-                <button class="cta-button">Buy plan</button>
-                <ul class="features-list">
-                    <li><span class="checkmark"></span>Up to 10 active listings</li>
-                    <li><span class="checkmark"></span>Featured placement in category pages</li>
-                    <li><span class="checkmark"></span>Higher visibility in search</li>
-                    <li><span class="checkmark"></span>Unlimited photos per listing</li>
-                    <li><span class="checkmark"></span>Direct WhatsApp leads</li>
-                </ul>
-            </div>-->
-
-            <!-- Enterprise Plan -->
-             <!--
-            <div class="pricing-card featured">
-                <h3 class="card-title">Agency Plan</h3>
-                <p class="card-description">Dedicated support and infrastructure for your company.</p>
-                <div class="price" data-monthly="120k" data-annually="1,2M">UGX 120K</div>
-                <div class="price-period" data-monthly="/month" data-annually="/year">/month</div>
-                <button class="cta-button">Contact sales</button>
-                <ul class="features-list">
-                    <li><span class="checkmark"></span>Unlimited listings</li>
-                    <li><span class="checkmark"></span>Homepage featured slots</li>
-                    <li><span class="checkmark"></span>Priority ranking in all searches</li>
-                    <li><span class="checkmark"></span>Verified agency badge</li>
-                    <li><span class="checkmark"></span>Dedicated support</li>
-                    <li><span class="checkmark"></span>Early access to new features</li>
-                </ul>
-            </div>
-        </div>
-    </div>-->
-    <!-- End of Pricing Section -->
-
-    <!-- Final CTA Section --><!--
-    <section class="cta-section">
-        <div class="cta-container">
-            <div class="cta-label">Get started</div>
-            <h1 class="cta-heading">Find Your Next Rental in Kampala</h1>
-            <p class="cta-description">Browse verified single rooms, apartments, hostels, shops, and offices.
-Contact agents instantly on WhatsApp. No signup required</p>
-            <button class="cta-button">Post property</button>
-        </div>
-    </section>-->
-
     {% endblock %}
+
+    {% block scripts %}
+<script>
+// ════════════════════════════════════════════════════════════════════════
+//  HOME PAGE — specific animations
+// ════════════════════════════════════════════════════════════════════════
+
+// ── 1. HERO TEXT REVEAL ──────────────────────────────────────────────────
+// Lines slide up from below; subtitle + CTAs follow
+gsap.to('.hero-line', {
+    y: '0%',
+    opacity: 1,
+    duration: 1.1,
+    ease: 'power4.out',
+    stagger: 0.14,
+    delay: 0.2,
+    onComplete: () => {
+        // After lines finish, fade in subtitle
+        gsap.to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
+        // Then CTAs
+        gsap.to('.hero-ctas', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.15 });
+    }
+});
+
+// ── 2. HERO PARALLAX ─────────────────────────────────────────────────────
+gsap.to('#hero-bg-img', {
+    y: '15%',
+    ease: 'none',
+    scrollTrigger: {
+        trigger: '.hero-parallax-wrap',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+    }
+});
+
+// ── 3. HOW-IT-WORKS PARALLAX ─────────────────────────────────────────────
+gsap.to('.hiw-parallax-img', {
+    y: '15%',
+    ease: 'none',
+    scrollTrigger: {
+        trigger: '.hiw-parallax-wrap',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true
+    }
+});
+
+// ── 4. MARQUEE ───────────────────────────────────────────────────────────
+gsap.to('#marquee-track', {
+    x: '-50%',
+    duration: 22,
+    ease: 'none',
+    repeat: -1
+});
+</script>
+{% endblock %}
+
 </html>

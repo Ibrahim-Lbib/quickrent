@@ -11,12 +11,10 @@ class Listing(db.Model):
     
     image = db.Column(db.String(255)) # store image path
     
-    # Property type: single-room, apartment, commercial
-    type = db.Column(db.String(50))
+    # Property details
+    type_deleted = db.Column(db.String(50), nullable=True) # temporary to avoid breaking too much before migration
     bedrooms = db.Column(db.Integer, default=0)
     bathrooms = db.Column(db.Integer, default=0)
-    
-    location = db.Column(db.String(100), nullable=False)
     
     whatsapp = db.Column(db.String(20), nullable=False) # contact number
     
@@ -26,8 +24,8 @@ class Listing(db.Model):
     
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    """category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
-    location_id = db.Column(db.Integer, db.ForeignKey("location.id"), nullable=False)"""
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey("location.id"), nullable=False)
     
     @property
     def agent_name(self):
