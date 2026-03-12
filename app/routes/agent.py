@@ -11,6 +11,9 @@ agent_bp = Blueprint("agent", __name__, url_prefix="/agent")
 @agent_bp.route("/dashboard")
 @login_required
 def dashboard():
+    if getattr(current_user, "role", "agent") != "agent":
+        flash("Log in as an agent to access the dashboard.", "error")
+        return redirect(url_for("public.listings"))
     listings = listing_service.get_agent_listings(current_user.id)
     return render_template(
         "agent/dashboard.html", 
@@ -21,6 +24,9 @@ def dashboard():
 @agent_bp.route("/listing/new", methods=["GET", "POST"])
 @login_required
 def add_listing():
+    if getattr(current_user, "role", "agent") != "agent":
+        flash("Log in as an agent to post a property.", "error")
+        return redirect(url_for("public.listings"))
     if request.method == "POST":
         try:
             listing = listing_service.create_listing(
@@ -40,6 +46,9 @@ def add_listing():
 @agent_bp.route("/listing/<int:listing_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_listing(listing_id):
+    if getattr(current_user, "role", "agent") != "agent":
+        flash("Log in as an agent to edit listings.", "error")
+        return redirect(url_for("public.listings"))
     listing = listing_service.get_listing_or_404(listing_id)
     if listing.user_id != current_user.id:
         flash("You don't have permission to edit this listing.", "error")
@@ -64,6 +73,9 @@ def edit_listing(listing_id):
 @agent_bp.route("/listings/<int:listing_id>/delete", methods=["POST"])
 @login_required
 def delete_listing(listing_id):
+    if getattr(current_user, "role", "agent") != "agent":
+        flash("Log in as an agent to manage listings.", "error")
+        return redirect(url_for("public.listings"))
     listing = listing_service.get_listing_or_404(listing_id)
 
     if listing.user_id != current_user.id:
