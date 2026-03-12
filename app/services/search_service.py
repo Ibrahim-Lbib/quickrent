@@ -1,23 +1,30 @@
 from app.models.listing import Listing
 
-
-def search_listings(location=None, property_type=None, max_price=None):
+def search_listings(location_id=None, category_id=None, max_price=None):
     """
-    Filter listings by location, type, and/or price.
-    Returns a SQLAlchemy query so callers can chain .all(), .limit() etc.
+    Filter listings by location ID, category ID, and/or price.
+    Returns a SQLAlchemy query.
     """
     query = Listing.query
 
-    if location and location.strip():
-        query = query.filter(Listing.location.ilike(f"%{location.strip()}%"))
+    if location_id:
+        try:
+            query = query.filter(Listing.location_id == int(location_id))
+        except (ValueError, TypeError):
+            pass
 
-    if property_type and property_type.strip():
-        query = query.filter(Listing.type == property_type.strip())
+    if category_id:
+        try:
+            query = query.filter(Listing.category_id == int(category_id))
+        except (ValueError, TypeError):
+            pass
 
     if max_price:
         try:
-            query = query.filter(Listing.price <= int(max_price))
+            # Clean price string (handle commas if any)
+            price_val = int(str(max_price).replace(",", "").replace(" ", "").strip())
+            query = query.filter(Listing.price <= price_val)
         except (ValueError, TypeError):
-            pass  # ignore bad price input, return unfiltered
+            pass
 
     return query.order_by(Listing.is_featured.desc(), Listing.created_at.desc())

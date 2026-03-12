@@ -1,15 +1,9 @@
 import logging
 from logging.config import fileConfig
-from sqlalchemy import pool
-import os
-import sys
 
 from flask import current_app
 
 from alembic import context
-from sqlalchemy import engine_from_config
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -79,13 +73,18 @@ def run_migrations_offline():
 
 
 def run_migrations_online():
-    """Run migrations in 'online' mode."""
+    """Run migrations in 'online' mode.
 
-    connectable = get_engine()  # This reuses your Flask-SQLAlchemy engine (best practice)
+    In this scenario we need to create an Engine
+    and associate a connection with the context.
 
-    # Optional: skip empty autogenerate migrations
+    """
+
+    # this callback is used to prevent an auto-migration from being generated
+    # when there are no changes to the schema
+    # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
     def process_revision_directives(context, revision, directives):
-        if getattr(context.config.cmd_opts, 'autogenerate', False):
+        if getattr(config.cmd_opts, 'autogenerate', False):
             script = directives[0]
             if script.upgrade_ops.is_empty():
                 directives[:] = []
@@ -95,11 +94,13 @@ def run_migrations_online():
     if conf_args.get("process_revision_directives") is None:
         conf_args["process_revision_directives"] = process_revision_directives
 
+    connectable = get_engine()
+
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),
-            **conf_args   # ← this may include render_as_batch=True from Flask-Migrate — that's fine, no duplicate
+            **conf_args
         )
 
         with context.begin_transaction():

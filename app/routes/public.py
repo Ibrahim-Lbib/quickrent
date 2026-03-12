@@ -1,6 +1,8 @@
 # homepage, landing pages
 from flask import Blueprint, render_template, request
 from app.models.listing import Listing
+from app.models.category import Category
+from app.models.location import Location
 from app.services.search_service import search_listings
 
 public = Blueprint("public", __name__)
@@ -10,26 +12,33 @@ def home():
     listings = Listing.query.order_by(
         Listing.is_featured.desc(), Listing.created_at.desc()
         ).limit(10).all()
-    return render_template('home.html', listings=listings)
+    categories = Category.query.all()
+    locations = Location.query.all()
+    return render_template('home.html', listings=listings, categories=categories, locations=locations)
 
 @public.route('/listings')
 def listings():
-    location = request.args.get("location", "").strip()
-    property_type = request.args.get("type", "").strip()
+    location_id = request.args.get("location_id")
+    category_id = request.args.get("category_id")
     max_price = request.args.get("price", "").strip()
     
     query = search_listings(
-        location=location or None,
-        property_type=property_type or None,
+        location_id=location_id,
+        category_id=category_id,
         max_price=max_price or None,
     )
     listings = query.all()
     
+    categories = Category.query.all()
+    locations = Location.query.all()
+    
     return render_template(
         "listings.html",
         listings=listings,
-        selected_location=location,
-        selected_type=property_type,
+        categories=categories,
+        locations=locations,
+        selected_location=location_id,
+        selected_type=category_id,
         selected_price=max_price,
     )
 
