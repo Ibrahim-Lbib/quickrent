@@ -87,7 +87,8 @@
             <label class="block text-sm font-semibold text-gray-700 mb-1">Replace Photo</label>
             {% if listing.image %}
                 <div class="mb-3 flex items-center gap-3">
-                    <img src="{{ url_for('static', filename='uploads/listings/' + listing.image) }}"
+                    {% set cover_image = listing.image.split(',')[0].strip() %}
+                    <img src="{{ url_for('static', filename='uploads/listings/' + cover_image) }}"
                          class="w-20 h-16 object-cover rounded-lg border border-gray-200">
                     <span class="text-xs text-gray-400">Current photo. Upload a new one to replace it.</span>
                 </div>

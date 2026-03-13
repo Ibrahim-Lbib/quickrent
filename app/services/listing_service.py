@@ -8,7 +8,7 @@ from app.services.storage_service import StorageService
 
 storage_service = StorageService()
 
-def create_listing(form_data: dict, image_file, user_id: int) -> Listing:
+def create_listing(form_data: dict, user_id: int, image_files=None, image_file=None) -> Listing:
     """
     Validate form data, save image, persist listing.
     Raises ValueError with a user-facing message on bad input.
@@ -65,7 +65,15 @@ def create_listing(form_data: dict, image_file, user_id: int) -> Listing:
             if not isinstance(item, dict) or not str(item.get("name", "")).strip():
                 raise ValueError("Each nearby landmark must be an object with a non-empty 'name'.")
 
-    image_filename = storage_service.save_image(image_file) if image_file and image_file.filename else None
+    uploads = []
+    if image_files:
+        uploads = [f for f in list(image_files) if f and getattr(f, "filename", "")]
+    elif image_file and getattr(image_file, "filename", ""):
+        uploads = [image_file]
+
+    image_filenames = [storage_service.save_image(f) for f in uploads]
+    image_filenames = [n for n in image_filenames if n]
+    image_filename = ",".join(image_filenames) if image_filenames else None
 
     listing = Listing(
         title=title,
@@ -91,7 +99,7 @@ def create_listing(form_data: dict, image_file, user_id: int) -> Listing:
     return listing
 
 
-def update_listing(listing: Listing, form_data: dict, image_file) -> Listing:
+def update_listing(listing: Listing, form_data: dict, image_files=None, image_file=None) -> Listing:
     """Update a listing's fields. Replaces image if a new one is uploaded."""
     title = form_data.get("title", "").strip()
     category_id = form_data.get("category_id")
@@ -150,10 +158,22 @@ def update_listing(listing: Listing, form_data: dict, image_file) -> Listing:
         if key in form_data:
             setattr(listing, key, bool(form_data.get(key)))
 
-    if image_file and image_file.filename:
+    uploads = []
+    if image_files:
+        uploads = [f for f in list(image_files) if f and getattr(f, "filename", "")]
+    elif image_file and getattr(image_file, "filename", ""):
+        uploads = [image_file]
+
+    if uploads:
         old_image = listing.image
-        listing.image = storage_service.save_image(image_file)
-        storage_service.delete_image(old_image)
+        image_filenames = [storage_service.save_image(f) for f in uploads]
+        image_filenames = [n for n in image_filenames if n]
+        if image_filenames:
+            listing.image = ",".join(image_filenames)
+
+        if old_image:
+            for name in [p.strip() for p in str(old_image).split(",") if p.strip()]:
+                storage_service.delete_image(name)
 
     db.session.commit()
     return listing
@@ -161,7 +181,9 @@ def update_listing(listing: Listing, form_data: dict, image_file) -> Listing:
 
 def delete_listing(listing: Listing):
     """Delete a listing and its associated image."""
-    storage_service.delete_image(listing.image)
+    if listing.image:
+        for name in [p.strip() for p in str(listing.image).split(",") if p.strip()]:
+            storage_service.delete_image(name)
     db.session.delete(listing)
     db.session.commit()
 

@@ -29,9 +29,13 @@ def add_listing():
         return redirect(url_for("public.listings"))
     if request.method == "POST":
         try:
+            image_files = request.files.getlist("images")
+            if not image_files:
+                single = request.files.get("image")
+                image_files = [single] if single else []
             listing = listing_service.create_listing(
                 form_data=request.form,
-                image_file=request.files.get("image"),
+                image_files=image_files,
                 user_id=current_user.id
             )
             flash("Listing created successfully!", "success")
@@ -56,10 +60,14 @@ def edit_listing(listing_id):
     
     if request.method == "POST":
         try:
+            image_files = request.files.getlist("images")
+            if not image_files:
+                single = request.files.get("image")
+                image_files = [single] if single else []
             listing_service.update_listing(
                 listing=listing,
                 form_data=request.form,
-                image_file=request.files.get("image")
+                image_files=image_files
             )
             flash("Listing updated", "success")
             return redirect(url_for("public.listing_detail", listing_id=listing.id))  
