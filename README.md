@@ -1,4 +1,10 @@
-![App Screenshot](app/static/images/quickrent_logo-1.png)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="app/static/images/quickrent_logo-1.png">
+    <source media="(prefers-color-scheme: light)" srcset="app/static/images/quickrent_logo-1.png">
+    <img alt="EchoAPI Logo" src="app/static/images/quickrent_logo-1.png" width="400">
+  </picture>
+</p>
 
 # QuickRent — Rentals & Property Directory – Kampala
 
