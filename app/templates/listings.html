@@ -129,9 +129,11 @@
             {% endif %}
             <div class="relative w-full h-32 sm:h-44 lg:h-48 overflow-hidden bg-gray-100">
                 {% if listing.image %}
-                <img src="{{ url_for('static', filename='uploads/listings/' + listing.image) }}" 
+                {% set cover_image = listing.image.split(',')[0].strip() %}
+                <img src="{{ url_for('static', filename='uploads/listings/' + cover_image) }}" 
                      alt="{{ listing.title }}"
-                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105">
+                     class="w-full h-full object-cover transition-transform duration-400 hover:scale-105"
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder-property.jpg') }}';">
                 {% else %}
                 <div class="w-full h-full flex items-center justify-center text-gray-400">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">

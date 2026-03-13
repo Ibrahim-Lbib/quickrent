@@ -62,6 +62,12 @@
 {% block body %}
   <!-- Header/Navbar Section -->
   <div class="bg-white">
+    {#
+    ===================================================================
+    OLD HERO SECTION - COMMENTED OUT ON 2026-03-13
+    User can uncomment this to revert to the original design
+    ===================================================================
+
     <!-- Hero Section -->
         <div class="px-3 sm:px-10 pt-4 pb-6 md:pt-8 md:pb-16 max-w-7xl mx-auto">
 
@@ -112,6 +118,133 @@
         </div>
         </div>
     <!-- End of Hero Section -->
+
+    ===================================================================
+    END OF OLD HERO SECTION
+    ===================================================================
+    #}
+
+    <!-- 
+    ===================================================================
+    NEW HERO SECTION - ADDED ON 2026-03-13
+    ClassiGrids-style hero with centered search box
+    ===================================================================
+    -->
+    <div class="bg-white">
+        <div class="px-3 sm:px-10 pt-4 pb-6 md:pt-8 md:pb-16 max-w-7xl mx-auto">
+            <div class="relative rounded-2xl overflow-hidden" style="min-height: max(60vh, 500px);">
+                
+                <!-- Background Image with Overlay -->
+                <div class="absolute inset-0">
+                    <img src="{{ url_for('static', filename='images/hero-background_02.webp') }}" 
+                        alt="Kampala rentals" 
+                        class="w-full h-full object-cover object-center">
+                    <!-- Dark Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60"></div>
+                </div>
+
+                <!-- Hero Content -->
+                <div class="relative z-10 flex flex-col items-center justify-center text-center h-full px-4 py-16 md:py-24">
+                    <div class="w-full max-w-4xl">
+                        
+                        <!-- Heading -->
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-4 md:mb-6">
+                            Find Your Perfect Rental
+                        </h1>
+                        
+                        <!-- Subtitle -->
+                        <p class="text-sm sm:text-base md:text-lg text-white/90 mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed">
+                            Discover apartments, houses, and rooms for rent in your area. Quick, easy, and reliable.
+                        </p>
+
+                        <!-- Search Box Container -->
+                        <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-2xl">
+                            <form action="{{ url_for('public.listings') }}" method="GET" class="w-full">
+                                
+                                <!-- Search Grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    
+                                    <!-- Keyword Input -->
+                                    <div class="md:col-span-1 relative">
+                                        <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/>
+                                        </svg>
+                                        <input 
+                                            type="text" 
+                                            name="q"
+                                            placeholder="What are you looking for?" 
+                                            class="w-full pl-10 pr-4 py-3.5 border-2 border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                        />
+                                    </div>
+
+                                    <!-- Category Select -->
+                                    <div class="md:col-span-1 relative">
+                                        <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 0 0-2-2h-6M4 11v6a2 2 0 0 0 2 2h6M9 7h6M7 9v6M17 9v6"/>
+                                        </svg>
+                                        <select 
+                                            name="category_id"
+                                            class="w-full pl-10 pr-10 py-3.5 border-2 border-gray-200 rounded-lg text-sm text-gray-900 appearance-none bg-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
+                                            style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%2720%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%236b7280%27 stroke-width=%272%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px;"
+                                        >
+                                            <option value="">All Categories</option>
+                                            {% for cat in categories %}
+                                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Location Input -->
+                                    <div class="md:col-span-1 relative">
+                                        <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                        </svg>
+                                        <input 
+                                            type="text" 
+                                            name="location"
+                                            placeholder="Location" 
+                                            class="w-full pl-10 pr-4 py-3.5 border-2 border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                                        />
+                                    </div>
+
+                                    <!-- Search Button -->
+                                    <div class="md:col-span-1">
+                                        <button 
+                                            type="submit" 
+                                            class="w-full px-6 py-3.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all shadow-lg shadow-indigo-600/30 hover:shadow-xl hover:shadow-indigo-600/40 flex items-center justify-center gap-2"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                                <circle cx="11" cy="11" r="8"></circle>
+                                                <path d="m21 21-4.35-4.35"></path>
+                                            </svg>
+                                            Search
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Quick Actions (Optional - kept from original) -->
+                        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                            <a href="{{ url_for('public.listings') }}"
+                            class="text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                                Browse All Listings
+                            </a>
+                            <span class="hidden sm:block text-white/40">•</span>
+                            <a href="{{ url_for('agent.add_listing') }}"
+                            class="text-sm text-white/80 hover:text-white transition-colors underline underline-offset-4">
+                                Post Your Property
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF NEW HERO SECTION -->
 
     <!-- Property Categories Section -->
     <div class="py-12 sm:py-24 px-4 sm:px-10 bg-white">

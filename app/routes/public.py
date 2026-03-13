@@ -21,12 +21,32 @@ def listings():
     location_id = request.args.get("location_id")
     category_id = request.args.get("category_id")
     max_price = request.args.get("price", "").strip()
+    q = (request.args.get("q") or "").strip()
+    location_text = (request.args.get("location") or "").strip()
+
+    if not location_id and location_text:
+        loc = (
+            Location.query.filter(Location.name.ilike(f"%{location_text}%"))
+            .order_by(Location.name.asc())
+            .first()
+        )
+        if loc:
+            location_id = str(loc.id)
     
     query = search_listings(
         location_id=location_id,
         category_id=category_id,
         max_price=max_price or None,
     )
+
+    if q:
+        from sqlalchemy import or_
+        query = query.filter(
+            or_(
+                Listing.title.ilike(f"%{q}%"),
+                Listing.description.ilike(f"%{q}%"),
+            )
+        )
     listings = query.all()
     
     categories = Category.query.all()
