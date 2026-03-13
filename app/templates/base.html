@@ -243,6 +243,8 @@
     /* Smart header transition */
     #main-header {
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+         background: white;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
     }
 
     /* Fade-up animation class (used by scroll-triggered elements) */
@@ -261,7 +263,7 @@
 <body class="bg-white overflow-x-hidden">
     <div id="qr-scroll-bar"></div>
     <!-- Header -->
-    <header class="fixed inset-x-0 top-0 z-50 duration-300" id="main-header">
+    <header class="fixed inset-x-0 top-0 z-50" id="main-header">
         <nav aria-label="Global" class="mx-auto flex items-center justify-between px-6 py-4 lg:px-8 bg-white" id="nav-bar">
         
         <!-- Logo -->
