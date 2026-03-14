@@ -4,6 +4,8 @@ from app.models.listing import Listing
 from app.models.category import Category
 from app.models.location import Location
 from app.services.search_service import search_listings
+from flask_login import current_user
+from app.services.echo_service import track_view, get_recommendations
 
 public = Blueprint("public", __name__)
 
@@ -106,6 +108,14 @@ def listings():
 @public.route('/listings/<int:listing_id>')
 def listing_detail(listing_id):
     listing = Listing.query.get_or_404(listing_id)
+    
+    # Fetch EchoAPI recommendations for logged-in users
+    recommended_items = []
+    if current_user.is_authenticated:
+        echo_recs = get_recommendations(user_id=current_user.id, limit=4)
+        # echo_recs is a list of dicts: {id, name, category, score}
+        # We pass them directly to the template (no DB lookup needed —
+        # EchoAPI returns its own item catalog, not QuickRent listing IDs)
 
     def _gallery_images(listing_obj: Listing) -> list[str]:
         # Stored uploads currently use Listing.image as a filename (single image).
@@ -134,6 +144,7 @@ def listing_detail(listing_id):
         'listing_detail.html',
         listing=listing,
         gallery_images=_gallery_images(listing),
+        echo_recs=echo_recs if current_user.is_authenticated else [],
     )
 
 

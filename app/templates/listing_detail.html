@@ -300,6 +300,27 @@
     </div>
 </main>
 
+<!-- Recommended Listings -->
+{% if echo_recs %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <h2 class="text-lg font-bold text-gray-800 mb-5">You Might Also Like</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    {% for rec in echo_recs %}
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+      <div class="p-4">
+        <span class="inline-block text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 mb-2 capitalize">
+          {{ rec.category }}
+        </span>
+        <p class="text-sm font-semibold text-gray-900 leading-tight">{{ rec.name }}</p>
+        <p class="text-xs text-gray-400 mt-1">Score: {{ rec.score }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <p class="text-xs text-gray-400 mt-3">Powered by EchoAPI</p>
+</section>
+{% endif %}
+
 <!-- Mobile Sticky WhatsApp Bar -->
 <div class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-gray-200 px-4 py-3 shadow-lg">
     <div class="flex items-center gap-3">
