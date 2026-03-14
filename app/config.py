@@ -6,6 +6,8 @@ load_dotenv()
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    ECHOAPI_BASE = os.getenv("ECHOAPI_BASE_URL")
+    ECHOAPI_KEY  = os.getenv("ECHOAPI_KEY")
     
 class DevelopmentConfig(Config):
     DEBUG = True
