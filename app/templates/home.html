@@ -285,7 +285,7 @@
     </div>
 
     <!-- What Makes Us Different Section -->
-    <div class="bg-indigo-600 py-12 sm:py-24 px-4 sm:px-10">
+    <div class="bg-indigo-600 py-12 sm:py-24 px-4 sm:px-10" style="background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 28px 28px;">
         <div class="max-w-7xl mx-auto">
             
             <!-- Section Header -->
@@ -388,6 +388,12 @@
         </div>
     </div>
 
+    {#
+    ===================================================================
+    OLD HOW IT WORKS SECTION - COMMENTED OUT ON 2026-03-15
+    User can uncomment this to revert to the original design
+    ===================================================================
+
     <!-- How It Works Section -->
     <div class="bg-white py-12 sm:py-24 px-4 sm:px-10" id="how-it-works">
         <div class="max-w-7xl mx-auto">
@@ -441,6 +447,85 @@
 
         </div>
     </div>
+
+    ===================================================================
+    END OF OLD HOW IT WORKS SECTION
+    ===================================================================
+    #}
+
+    <!--
+    ===================================================================
+    NEW HOW IT WORKS SECTION - ADDED ON 2026-03-15
+    Features-02.psd style: indigo dotted bg, centered header, 3 white
+    cards with circular icon badge popping out of the top of each card
+    ===================================================================
+    -->
+    <div class="py-16 sm:py-24 px-4 sm:px-10 bg-indigo-600 " id="how-it-works"
+        style="background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 28px 28px;">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Section Header -->
+            <div class="text-center mb-16 sm:mb-20">
+                <p class="text-xs font-semibold text-white/60 tracking-widest uppercase mb-3">Simply</p>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+                    How it works in three steps
+                </h2>
+                <p class="text-sm sm:text-base text-white/70 leading-relaxed max-w-lg mx-auto">
+                    Whether you're hunting for a room or listing your property, the process is straightforward. No complications, no surprises.
+                </p>
+            </div>
+
+            <!-- Three Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+
+                <!-- Card 1 -->
+                <div class="pt-8 relative">
+                    <!-- Icon bubble -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg z-10">
+                        <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    <!-- Card body -->
+                    <div class="bg-white rounded-2xl pt-12 pb-8 px-7 text-center">
+                        <p class="text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-2">Step 01</p>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 tracking-tight">Search or register</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Browse listings freely or create an account to post your own property. No account needed to search.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="pt-8 relative">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg z-10">
+                        <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <div class="bg-white rounded-2xl pt-12 pb-8 px-7 text-center">
+                        <p class="text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-2">Step 02</p>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 tracking-tight">Contact directly</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Message agents and landlords on WhatsApp instantly. No waiting, no delays, no middlemen.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="pt-8 relative">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg z-10">
+                        <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0h6"/>
+                        </svg>
+                    </div>
+                    <div class="bg-indigo-50 rounded-2xl pt-12 pb-8 px-7 text-center">
+                        <p class="text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-2">Step 03</p>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 tracking-tight">Move in</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Arrange a viewing, sign your lease, and settle into your new place with full confidence.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END OF NEW HOW IT WORKS SECTION -->
 
     <!-- Stats Section-->
      <div class="bg-white py-12 sm:py-32 px-4 sm:px-10">
